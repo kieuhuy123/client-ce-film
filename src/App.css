@@ -1,38 +1,125 @@
-.App {
-  text-align: center;
+:root {
+  --main-color: #c0392b;
+  --body-bg: #181616;
+  --box-bg: #080202;
+  --text-color: #ffffff;
+
+  --nav-height: 60px;
+  --space-top: 30px;
+}
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap');
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Nunito', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  transition: 0.3s ease-in-out;
+}
+body {
+  background-color: var(--body-bg);
+}
+img {
+  max-width: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: grey;
+  border-radius: 5px;
+}
+
+h1 {
+  color: #fff;
+  font-size: 48px;
+}
+h2 {
+  font-size: 40px;
+  line-height: 44px;
+  font-weight: 400;
+  color: #fff;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+h3 {
+  font-size: 32px;
+}
+h4 {
+  font-size: 24px;
+}
+.body {
+  font-size: 16px;
+}
+.sub-title {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 400;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+/* Button */
+.w-button {
+  display: inline-block;
+  padding: 9px 15px;
+  background-color: #3898ec;
+  color: #fff;
+  border: 0;
+  line-height: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 0;
+}
+.w-button:hover {
+  color: #fff;
+}
+.button_trailer {
+  margin-right: 10px;
+  border-radius: 5px;
+}
+.button_xemphim {
+  border-radius: 5px;
+  background-color: #e46466;
+}
+.w-button:disabled {
   pointer-events: none;
+  opacity: 0.5;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+@media screen and (max-width: 768px) {
+  h1 {
+    color: #fff;
+    font-size: 40px;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  h2 {
+    font-size: 32px;
+    line-height: 44px;
+    font-weight: 400;
+    color: #fff;
+    margin-top: 20px;
+    margin-bottom: 10px;
   }
-  to {
-    transform: rotate(360deg);
+  h3 {
+    font-size: 24px;
+  }
+  h4 {
+    font-size: 20px;
   }
 }

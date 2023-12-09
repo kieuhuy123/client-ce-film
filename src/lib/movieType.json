@@ -1,0 +1,10 @@
+[
+  {
+    "value": "movie",
+    "label": "Phim lẻ"
+  },
+  {
+    "value": "show",
+    "label": "Phim bộ"
+  }
+]

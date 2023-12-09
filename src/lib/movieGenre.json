@@ -1,0 +1,50 @@
+[
+  {
+    "value": "hanh-dong",
+    "label": "Hành động"
+  },
+  {
+    "value": "hai-huoc",
+    "label": "Hài hước"
+  },
+  {
+    "value": "tinh-cam",
+    "label": "Tình cảm"
+  },
+  {
+    "value": "vien-tuong",
+    "label": "Viễn tưởng"
+  },
+  {
+    "value": "hoat-hinh",
+    "label": "Hoạt hình"
+  },
+  {
+    "value": "giat-gan",
+    "label": "Giật gân"
+  },
+  {
+    "value": "kinh-di",
+    "label": "Kinh dị"
+  },
+  {
+    "value": "gia-dinh",
+    "label": "Gia đình"
+  },
+  {
+    "value": "trinh-tham",
+    "label": "Trinh thám"
+  },
+  {
+    "value": "lich-su",
+    "label": "Lịch sử"
+  },
+  {
+    "value": "chien-tranh",
+    "label": "Chiến tranh"
+  },
+  {
+    "value": "thieu-nhi",
+    "label": "Thiếu nhi"
+  }
+]
