@@ -15,7 +15,7 @@ const initialState = {
 
 const Register = () => {
   const [formValue, setFormValue] = useState(initialState)
-  console.log(formValue)
+
   const { email, password, confirmPassword } = formValue
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -30,7 +30,6 @@ const Register = () => {
       return toast.error('Password should match')
     }
     if (email && password) {
-      console.log(formValue)
       dispatch(register({ formValue, navigate, toast }))
     }
   }

@@ -16,13 +16,16 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 import ReviewMoview from './pages/ReviewMoview'
 import { ROLES } from './lib/roles'
+import Watchlist from './pages/Watchlist'
 
 function App () {
   const dispatch = useDispatch()
   const user = JSON.parse(localStorage.getItem('profile'))
 
   useEffect(() => {
-    dispatch(setToken(user.accessToken))
+    if (user) {
+      dispatch(setToken(user.accessToken))
+    }
   }, [dispatch, user])
 
   return (
@@ -40,6 +43,14 @@ function App () {
               element={
                 <PrivateRoute allowedRoles={[ROLES.Admin]}>
                   <AddMovie />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path='/watchlist'
+              element={
+                <PrivateRoute allowedRoles={[ROLES.Admin, ROLES.User]}>
+                  <Watchlist />
                 </PrivateRoute>
               }
             />

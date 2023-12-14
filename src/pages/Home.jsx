@@ -1,29 +1,44 @@
-import React, { useEffect } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Container, Row, Col } from 'react-bootstrap'
 import { getMovies } from '../redux/feature/movieSlice'
 import FilmList from '../components/FilmList'
 // Css
 import './Home.css'
+import useAuth from '../utils/useAuth'
+import { getWatchlist } from '../redux/feature/watchlistSlice'
+
 const Home = () => {
   const { movies, loading, currentPage, numberOfPages } = useSelector(
     state => ({
       ...state.movie
     })
   )
+  const watchlist = useSelector(state => state.watchlist.watchlist)
+  console.log('watchlist', watchlist)
+  const { email } = useAuth()
 
   const dispatch = useDispatch()
+
   useEffect(() => {
     dispatch(getMovies(currentPage))
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // Get watchlist
+  useEffect(() => {
+    if (email) {
+      dispatch(getWatchlist(email))
+    }
+  }, [email])
+
   if (loading) return <h1>Loading...</h1>
+
   if (movies.length === 0) return <h1>No movies</h1>
   return (
-    <Container>
-      <Row>
-        <Col lg='12' xl='9'>
+    <div className='container'>
+      <div className='col'>
+        <div className='col-12 col-xl-9'>
           <div className='section-title-wrapper'>
             <h2 className='section-title'>Phim mới</h2>
           </div>
@@ -32,9 +47,9 @@ const Home = () => {
               <FilmList film={movies} />
             </div>
           </div>
-        </Col>
+        </div>
 
-        <Col xl='3' className='sidebar'>
+        <div className='col-12 col-xl-3 sidebar'>
           <div className='sidenav-block-title sub-title'>Phim bộ hot</div>
 
           <div className='div-block'>
@@ -46,9 +61,9 @@ const Home = () => {
           <div className='div-block'>
             {/* <NewFilmList film={currentPosts} /> */}
           </div>
-        </Col>
-      </Row>
-    </Container>
+        </div>
+      </div>
+    </div>
   )
 }
 

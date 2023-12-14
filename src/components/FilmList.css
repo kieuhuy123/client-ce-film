@@ -16,18 +16,6 @@
   transition: 0.3s;
 }
 
-.item-block-img {
-  display: inline-block;
-  position: relative;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  width: 100%;
-  height: 100%;
-  background-position: 50% 50%;
-  background-size: cover;
-  box-shadow: 1px 1px 3px 0 rgb(0 0 0 / 40%),
-    inset 0 1px 0 0 hsl(0deg 0% 100% / 10%);
-}
 .item-block-title {
   height: 55px;
   overflow: hidden;

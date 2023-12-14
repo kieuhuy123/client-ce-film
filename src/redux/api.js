@@ -11,7 +11,7 @@ const API = axios.create({
 API.interceptors.request.use(req => {
   if (localStorage.getItem('profile')) {
     req.headers.Authorization = `Bearer ${
-      JSON.parse(localStorage.getItem('profile')).token
+      JSON.parse(localStorage.getItem('profile')).accessToken
     }`
   }
   return req
@@ -26,3 +26,13 @@ export const createMovie = movieData => API.post(`/movie`, movieData)
 export const updateMovie = (movieData, alias) =>
   API.patch(`/movie/${alias}`, movieData)
 export const deleteMovie = alias => API.delete(`/movie/${alias}`)
+
+export const getWatchlist = userEmail => API.get(`/watchlist/${userEmail}`)
+
+export const addToWatchlist = watchlistData =>
+  API.post(`/watchlist`, watchlistData)
+
+export const removeFromWatchlist = (movieId, userEmail) =>
+  API.delete(`/watchlist`, {
+    data: { movie_id: movieId, user_email: userEmail }
+  })

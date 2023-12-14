@@ -152,24 +152,23 @@ const AddMovie = () => {
   }, [movieData.title])
 
   useEffect(() => {
-    if (alias) {
-      dispatch(getMovie(alias))
-    }
-  }, [])
-  console.log('movie', movie)
-
-  useEffect(() => {
-    console.log('useEffect ne')
     if (Object.keys(movie).length) {
-      console.log('co movie ne', movie)
       setMovieData(movie)
     }
   }, [movie])
 
+  // get movie edit
+  useEffect(() => {
+    if (alias) {
+      dispatch(getMovie(alias))
+    } else {
+      setMovieData(initialState)
+    }
+  }, [])
+
   const handleSubmit = e => {
     e.preventDefault()
     if (alias) {
-      console.log('movieData submit', movieData)
       dispatch(updateMovie({ movieData, alias, navigate, toast }))
     } else {
       dispatch(createMovie({ movieData, navigate, toast }))
@@ -256,8 +255,8 @@ const AddMovie = () => {
                     onChange={onInputChange}
                     renderValue={selected => (
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                        {selected.map(value => (
-                          <Chip key={value} label={value} />
+                        {selected.map((value, index) => (
+                          <Chip key={index} label={value} />
                         ))}
                       </Box>
                     )}

@@ -64,10 +64,11 @@ export const updateMovie = createAsyncThunk(
 
 export const deleteMovie = createAsyncThunk(
   'movie/deleteMovie',
-  async (alias, { rejectWithValue }) => {
+  async ({ alias, navigate, toast }, { rejectWithValue }) => {
     try {
       const response = await api.deleteMovie(alias)
-
+      toast.success('Delete movie successfully')
+      navigate('/')
       return response.data
     } catch (error) {
       return rejectWithValue(error.response.data)
