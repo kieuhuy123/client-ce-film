@@ -16,9 +16,9 @@ const ReviewMoview = () => {
 
   const { email } = useAuth()
 
-  // const { movie, loading } = useSelector(state => ({
-  //   ...state.movie
-  // }))
+  const { loading } = useSelector(state => ({
+    ...state.movie
+  }))
 
   useEffect(() => {
     if (alias) {
@@ -33,9 +33,9 @@ const ReviewMoview = () => {
     }
   }, [dispatch, email])
 
-  // if (loading) {
-  //   return <div>...Loading</div>
-  // }
+  if (loading) {
+    return <div>...Loading</div>
+  }
 
   return (
     <>
