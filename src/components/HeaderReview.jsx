@@ -97,9 +97,11 @@ const HeaderReview = ({ alias }) => {
                   </Button>
                 </a>
 
-                <Button variant='contained' className='' color='error'>
-                  {'Xem phim'}
-                </Button>
+                <Link to={`/play/${alias}`}>
+                  <Button variant='contained' className='' color='error'>
+                    {'Xem phim'}
+                  </Button>
+                </Link>
 
                 {isAdmin && (
                   <Link to={`/editMovie/${alias}`}>

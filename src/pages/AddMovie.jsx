@@ -55,12 +55,12 @@ const MenuProps = {
   }
 }
 const AddMovie = () => {
-  const { movie, loading } = useSelector(state => ({
+  const { movie, loading, error } = useSelector(state => ({
     ...state.movie
   }))
-
+  console.log('error', error)
   const [movieData, setMovieData] = useState(initialState)
-  console.log('movieData', movieData)
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const params = useParams()
@@ -300,6 +300,7 @@ const AddMovie = () => {
                   <TextField
                     className='bg-white'
                     name='time'
+                    type='number'
                     label='Thời lượng'
                     value={info?.time}
                     onChange={onInfoChange}
@@ -341,7 +342,7 @@ const AddMovie = () => {
               <div className='col-12 col-lg-6'>
                 <FormControl fullWidth className='mb-3'>
                   <MuiChipsInput
-                    name='actors'
+                    name='directors'
                     label='Đạo diễn'
                     className='bg-white form-control'
                     variant='outlined'
@@ -376,6 +377,7 @@ const AddMovie = () => {
                 <FormControl fullWidth className='mb-3'>
                   <TextField
                     className='bg-white'
+                    type='number'
                     name='publish'
                     label='Khởi chiếu'
                     value={info?.publish}

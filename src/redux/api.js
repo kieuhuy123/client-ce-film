@@ -36,3 +36,6 @@ export const removeFromWatchlist = (movieId, userEmail) =>
   API.delete(`/watchlist`, {
     data: { movie_id: movieId, user_email: userEmail }
   })
+
+export const getRelatedMovies = relatedMovieData =>
+  API.post(`/movie/related`, relatedMovieData)

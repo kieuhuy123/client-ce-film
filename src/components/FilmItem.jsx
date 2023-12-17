@@ -16,25 +16,23 @@ const FilmItem = memo(function ({ film, type }) {
   const myImage = cld.image(film.image)
 
   return (
-    <div className='item-block position-relative'>
+    <div className='d-flex flex-column position-relative h-100'>
       <Link to={'/review/' + film.alias}>
-        <figure className='position-relative'>
+        <figure className='item-media position-relative w-100 padding'>
           <AdvancedImage
-            className='w-100 h-100 object-fit-cover'
+            className='w-100 h-100 object-fit-cover position-absolute top-0 start-0 end-0 bottom-0'
             style={{ maxWidth: '100%' }}
             cldImg={myImage}
             plugins={[lazyload(), placeholder({ mode: 'blur' })]}
           />
           {/* <div className='item-control'></div> */}
         </figure>
+        <p className='sub-title'>{film.title}</p>
       </Link>
 
       <div className='item-number'>{film.rate}</div>
 
-      <Link to={'/review/' + film.alias} className='item-block-title sub-title'>
-        {film.title}
-      </Link>
-      <div className='mt-3'>
+      <div className='mt-auto'>
         <BtnWatchlist film={film} type={type} />
       </div>
     </div>
