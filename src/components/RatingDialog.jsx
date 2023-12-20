@@ -13,7 +13,11 @@ import CloseIcon from '@mui/icons-material/Close'
 import { FaStar } from 'react-icons/fa'
 import { FaRegStar } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
-import { rateMovie } from '../redux/feature/ratingSlice'
+import {
+  rateMovie,
+  setOpen,
+  updateRatingMovie
+} from '../redux/feature/ratingSlice'
 import useAuth from '../utils/useAuth'
 
 const RateDialog = styled(Dialog)(({ theme }) => ({
@@ -40,9 +44,24 @@ const RatingDialog = ({ film, open, handleClose }) => {
   const dispatch = useDispatch()
 
   const handleRate = () => {
-    dispatch(
-      rateMovie({ userId: userId, movieId: film._id, rateValue: rating })
-    )
+    if (ratedMovie) {
+      dispatch(
+        updateRatingMovie({
+          userId: userId,
+          movieId: film._id,
+          rateValue: rating,
+          oldRateValue: ratedMovie.value
+        })
+      )
+
+      dispatch(setOpen(false))
+    } else {
+      dispatch(
+        rateMovie({ userId: userId, movieId: film._id, rateValue: rating })
+      )
+
+      dispatch(setOpen(false))
+    }
   }
   useEffect(() => {
     if (ratedMovie) {

@@ -14,6 +14,7 @@ export const rateMovie = createAsyncThunk(
   async ({ userId, movieId, rateValue }, { rejectWithValue }) => {
     try {
       const response = await api.rateMovie(userId, movieId, rateValue)
+      setOpen(false)
       return response.data
     } catch (error) {
       return rejectWithValue(error.response.data)
@@ -21,6 +22,23 @@ export const rateMovie = createAsyncThunk(
   }
 )
 
+export const updateRatingMovie = createAsyncThunk(
+  'rating/updateRating',
+  async ({ userId, movieId, rateValue, oldRateValue }, { rejectWithValue }) => {
+    try {
+      const response = await api.updateRatingMovie(
+        userId,
+        movieId,
+        rateValue,
+        oldRateValue
+      )
+      setOpen(false)
+      return response.data
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
 export const getRateMovie = createAsyncThunk(
   'rating/getRated',
   async (userId, { rejectWithValue }) => {
@@ -50,11 +68,11 @@ const ratingSlice = createSlice({
     },
     [rateMovie.fulfilled]: (state, action) => {
       state.loading = false
-      // state.rating = action.payload
+      state.rated = [...state.rated, { ...action.payload }]
     },
     [rateMovie.rejected]: (state, action) => {
       state.loading = false
-      // state.error = action.payload.message
+      state.error = action.payload.message
     },
     [getRateMovie.pending]: (state, action) => {
       state.loading = true
@@ -65,7 +83,27 @@ const ratingSlice = createSlice({
     },
     [getRateMovie.rejected]: (state, action) => {
       state.loading = false
-      // state.error = action.payload.message
+      state.error = action.payload.message
+    },
+    [updateRatingMovie.pending]: (state, action) => {
+      state.loading = true
+    },
+    [updateRatingMovie.fulfilled]: (state, action) => {
+      state.loading = false
+
+      const {
+        arg: { movieId }
+      } = action.meta
+
+      if (movieId) {
+        state.rated = state.rated.filter(item => item.movieId !== movieId)
+      }
+
+      state.rated = [...state.rated, { ...action.payload }]
+    },
+    [updateRatingMovie.rejected]: (state, action) => {
+      state.loading = false
+      state.error = action.payload.message
     }
   }
 })

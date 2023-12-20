@@ -4,10 +4,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setMovieIsRating, setOpen } from '../redux/feature/ratingSlice'
 import BtnWatchlist from './BtnWatchlist'
 import { Cloudinary } from '@cloudinary/url-gen'
-import { AdvancedImage, placeholder, lazyload } from '@cloudinary/react'
+import { AdvancedImage } from '@cloudinary/react'
 import { IconButton } from '@mui/material'
 import { FaRegStar } from 'react-icons/fa'
 import { FaStar } from 'react-icons/fa'
+import { quality } from '@cloudinary/url-gen/actions/delivery'
+import { format } from '@cloudinary/url-gen/actions/delivery'
+import { fill } from '@cloudinary/url-gen/actions/resize'
+
+import { auto } from '@cloudinary/url-gen/qualifiers/quality'
 
 import avgRate from '../utils/avgRate'
 const defaultRate = 7
@@ -16,6 +21,7 @@ const FilmItem = memo(function ({ film, type }) {
   const dispatch = useDispatch()
 
   const { rated } = useSelector(state => ({ ...state.rating }))
+
   const ratedMovie = rated.find(item => item.movieId === film._id)
 
   const cld = new Cloudinary({
@@ -24,7 +30,10 @@ const FilmItem = memo(function ({ film, type }) {
     }
   })
 
-  const myImage = cld.image(film.image)
+  const myImage = cld
+    .image(film.image)
+    .delivery(quality(auto()), format(auto()))
+    .resize(fill().width(222).height(328))
 
   const handleOpenRate = () => {
     dispatch(setOpen(true))
@@ -39,7 +48,8 @@ const FilmItem = memo(function ({ film, type }) {
             className='w-100 h-100 object-fit-cover position-absolute top-0 start-0 end-0 bottom-0'
             style={{ maxWidth: '100%' }}
             cldImg={myImage}
-            plugins={[lazyload(), placeholder({ mode: 'blur' })]}
+            alt={film.title}
+            // plugins={[lazyload(), placeholder({ mode: 'blur' })]}
           />
         </figure>
 

@@ -7,6 +7,7 @@ import FilmList from '../components/FilmList'
 import './Home.css'
 import { getWatchlist } from '../redux/feature/watchlistSlice'
 import useAuth from '../utils/useAuth'
+import { getRateMovie } from '../redux/feature/ratingSlice'
 const Watchlist = () => {
   const { watchlist, loading, error } = useSelector(state => ({
     ...state.watchlist
@@ -20,6 +21,13 @@ const Watchlist = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // Get rating
+  useEffect(() => {
+    if (userId) {
+      dispatch(getRateMovie(userId))
+    }
+  }, [userId, dispatch])
 
   if (loading) return <h1>Loading...</h1>
 

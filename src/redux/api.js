@@ -45,4 +45,7 @@ export const removeFromWatchlist = (userId, movieId, alias) =>
 export const rateMovie = (userId, movieId, rateValue) =>
   API.post(`/rate`, { userId, movieId, rateValue })
 
+export const updateRatingMovie = (userId, movieId, rateValue, oldRateValue) =>
+  API.patch(`/rate`, { userId, movieId, rateValue, oldRateValue })
+
 export const getRatedMovie = userId => API.get(`/rate/${userId}`)

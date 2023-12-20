@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import { toLabelGenre } from '../utils/toLabelGenre'
 import { Cloudinary } from '@cloudinary/url-gen'
-import { AdvancedImage, placeholder, lazyload } from '@cloudinary/react'
+import { AdvancedImage } from '@cloudinary/react'
 import { Button, Icon, IconButton, Tooltip } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
@@ -70,7 +70,6 @@ const HeaderReview = ({ alias }) => {
                   className='item-block-img h-100'
                   style={{ maxWidth: '100%' }}
                   cldImg={myImage}
-                  //   plugins={[lazyload(), placeholder({ mode: 'blur' })]}
                 />
               </div>
             </div>
