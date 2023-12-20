@@ -7,6 +7,8 @@ import './Home.css'
 import useAuth from '../utils/useAuth'
 import { getWatchlist } from '../redux/feature/watchlistSlice'
 import TopBanner from '../components/TopBanner'
+import { getRateMovie, setOpen } from '../redux/feature/ratingSlice'
+import RatingDialog from '../components/RatingDialog'
 
 const Home = () => {
   const { movies, loading, currentPage, numberOfPages } = useSelector(
@@ -14,11 +16,14 @@ const Home = () => {
       ...state.movie
     })
   )
-  const watchlist = useSelector(state => state.watchlist.watchlist)
-  console.log('watchlist', watchlist)
-  const { email } = useAuth()
+
+  const { userId } = useAuth()
 
   const dispatch = useDispatch()
+
+  const handleCloseRate = () => {
+    dispatch(setOpen(false))
+  }
 
   useEffect(() => {
     dispatch(getMovies(currentPage))
@@ -28,10 +33,17 @@ const Home = () => {
 
   // Get watchlist
   useEffect(() => {
-    if (email) {
-      dispatch(getWatchlist(email))
+    if (userId) {
+      dispatch(getWatchlist(userId))
     }
-  }, [email])
+  }, [userId, dispatch])
+
+  // Get rating
+  useEffect(() => {
+    if (userId) {
+      dispatch(getRateMovie(userId))
+    }
+  }, [userId, dispatch])
 
   if (loading) return <h1>Loading...</h1>
 

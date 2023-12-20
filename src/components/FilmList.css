@@ -74,6 +74,19 @@
   padding-bottom: 148%;
 }
 
+.icon-rating {
+  transition: 0.3s;
+  cursor: pointer;
+}
+.rating-center {
+  top: -3rem;
+}
+.rating-text {
+  font-size: 22px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
 @media screen and (max-width: 992px) {
   .info-block-icon.block {
     display: block;

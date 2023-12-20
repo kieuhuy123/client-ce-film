@@ -14,7 +14,7 @@ const ReviewMoview = () => {
 
   const alias = params?.alias
 
-  const { email } = useAuth()
+  const { userId } = useAuth()
 
   const { loading } = useSelector(state => ({
     ...state.movie
@@ -28,10 +28,10 @@ const ReviewMoview = () => {
 
   // Get watchlist
   useEffect(() => {
-    if (email) {
-      dispatch(getWatchlist(email))
+    if (userId) {
+      dispatch(getWatchlist(userId))
     }
-  }, [dispatch, email])
+  }, [dispatch, userId])
 
   if (loading) {
     return <div>...Loading</div>

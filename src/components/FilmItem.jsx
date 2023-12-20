@@ -1,12 +1,23 @@
+import { memo } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { setMovieIsRating, setOpen } from '../redux/feature/ratingSlice'
+import BtnWatchlist from './BtnWatchlist'
 import { Cloudinary } from '@cloudinary/url-gen'
 import { AdvancedImage, placeholder, lazyload } from '@cloudinary/react'
-import BtnWatchlist from './BtnWatchlist'
+import { IconButton } from '@mui/material'
+import { FaRegStar } from 'react-icons/fa'
+import { FaStar } from 'react-icons/fa'
 
-import { memo } from 'react'
+import avgRate from '../utils/avgRate'
+const defaultRate = 7
 
 const FilmItem = memo(function ({ film, type }) {
+  const dispatch = useDispatch()
+
+  const { rated } = useSelector(state => ({ ...state.rating }))
+  const ratedMovie = rated.find(item => item.movieId === film._id)
+
   const cld = new Cloudinary({
     cloud: {
       cloudName: 'dladhhg6i'
@@ -14,6 +25,11 @@ const FilmItem = memo(function ({ film, type }) {
   })
 
   const myImage = cld.image(film.image)
+
+  const handleOpenRate = () => {
+    dispatch(setOpen(true))
+    dispatch(setMovieIsRating(film))
+  }
 
   return (
     <div className='d-flex flex-column position-relative h-100'>
@@ -25,14 +41,41 @@ const FilmItem = memo(function ({ film, type }) {
             cldImg={myImage}
             plugins={[lazyload(), placeholder({ mode: 'blur' })]}
           />
-          {/* <div className='item-control'></div> */}
         </figure>
+
         <p className='sub-title'>{film.title}</p>
       </Link>
 
-      <div className='item-number'>{film.rate}</div>
+      <div className='item-number'>
+        {film?.rateCount && film?.rateValue
+          ? avgRate(film?.rateCount, film?.rateValue)
+          : defaultRate}
+      </div>
 
       <div className='mt-auto'>
+        <IconButton className='text-white me-3' size='small'>
+          <FaStar color='#f5c518' />
+          <span className='ms-2 '>
+            {film?.rateCount && film?.rateValue
+              ? avgRate(film?.rateCount, film?.rateValue)
+              : defaultRate}
+          </span>
+        </IconButton>
+
+        <IconButton
+          aria-label='rate'
+          color='primary'
+          size='small'
+          onClick={handleOpenRate}
+        >
+          <FaRegStar />
+          <span className='ms-2 text-white'>
+            {ratedMovie ? ratedMovie.value : ''}
+          </span>
+        </IconButton>
+      </div>
+
+      <div className='mt-3'>
         <BtnWatchlist film={film} type={type} />
       </div>
     </div>

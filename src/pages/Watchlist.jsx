@@ -12,11 +12,11 @@ const Watchlist = () => {
     ...state.watchlist
   }))
 
-  const { email } = useAuth()
+  const { userId } = useAuth()
 
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(getWatchlist(email))
+    dispatch(getWatchlist(userId))
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
