@@ -27,15 +27,22 @@ export const updateMovie = (movieData, alias) =>
   API.patch(`/movie/${alias}`, movieData)
 export const deleteMovie = alias => API.delete(`/movie/${alias}`)
 
-export const getWatchlist = userEmail => API.get(`/watchlist/${userEmail}`)
-
-export const addToWatchlist = watchlistData =>
-  API.post(`/watchlist`, watchlistData)
-
-export const removeFromWatchlist = (movieId, userEmail) =>
-  API.delete(`/watchlist`, {
-    data: { movie_id: movieId, user_email: userEmail }
-  })
-
 export const getRelatedMovies = relatedMovieData =>
   API.post(`/movie/related`, relatedMovieData)
+
+// Watchlist
+export const getWatchlist = userId => API.get(`/watchlist/?userId=${userId}`)
+
+export const addToWatchlist = (userId, movieId) =>
+  API.post(`/watchlist`, { userId, movieId })
+
+export const removeFromWatchlist = (userId, movieId, alias) =>
+  API.delete(`/watchlist`, {
+    data: { userId, movieId, alias }
+  })
+
+// Rate
+export const rateMovie = (userId, movieId, rateValue) =>
+  API.post(`/rate`, { userId, movieId, rateValue })
+
+export const getRatedMovie = userId => API.get(`/rate/${userId}`)

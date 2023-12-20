@@ -17,7 +17,7 @@ import useAuth from '../utils/useAuth'
 const BtnWatchlist = ({ film, type }) => {
   const dispatch = useDispatch()
 
-  const { email } = useAuth()
+  const { userId } = useAuth()
 
   const { watchlist, addInLoading } = useSelector(state => ({
     ...state.watchlist
@@ -26,17 +26,18 @@ const BtnWatchlist = ({ film, type }) => {
   let loadBtn = false
   addInLoading.movieId === film._id ? (loadBtn = true) : (loadBtn = false)
 
-  const onWatchlist = watchlist.find(item => item.movie_id === film._id)
+  const onWatchlist = watchlist.find(item => item._id === film._id)
 
   const handleWatchlist = () => {
-    dispatch(addToWatchlist({ movieData: film, userEmail: email, toast }))
+    dispatch(addToWatchlist({ movieId: film._id, userId, toast }))
   }
 
   const handleRemoveWatchlist = () => {
     dispatch(
       removeFromWatchlist({
-        movieId: type === 'watchlist' ? film.movie_id : film._id,
-        userEmail: email,
+        userId: userId,
+        movieId: film._id,
+        alias: film.alias,
         toast
       })
     )

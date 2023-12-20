@@ -10,9 +10,9 @@ const initialState = {
 
 export const getWatchlist = createAsyncThunk(
   'watchlist/getWatchlist',
-  async (userEmail, { rejectWithValue }) => {
+  async (userId, { rejectWithValue }) => {
     try {
-      const response = await api.getWatchlist(userEmail)
+      const response = await api.getWatchlist(userId)
       return response.data
     } catch (error) {
       return rejectWithValue(error.response.data)
@@ -22,18 +22,11 @@ export const getWatchlist = createAsyncThunk(
 
 export const addToWatchlist = createAsyncThunk(
   'watchlist/addToWatchlist',
-  async ({ movieData, userEmail, toast }, { rejectWithValue }) => {
+  async ({ userId, movieId, toast }, { rejectWithValue }) => {
+    console.log('hello')
     try {
-      let { _id, title, alias, image, rate } = movieData
-      const watchlistData = {
-        movie_id: _id,
-        user_email: userEmail,
-        title,
-        alias,
-        image,
-        rate
-      }
-      const response = await api.addToWatchlist(watchlistData)
+      console.log('add to Watchlist')
+      const response = await api.addToWatchlist(userId, movieId)
       toast.success('Add film to watchlist')
       return response.data
     } catch (error) {
@@ -44,18 +37,19 @@ export const addToWatchlist = createAsyncThunk(
 
 export const removeFromWatchlist = createAsyncThunk(
   'watchlist/removeFromWatchlist',
-  async ({ userEmail, movieId, toast }, { rejectWithValue }) => {
+  async ({ userId, movieId, alias, toast }, { rejectWithValue }) => {
     try {
-      const response = await api.removeFromWatchlist(movieId, userEmail)
+      const response = await api.removeFromWatchlist(userId, movieId, alias)
       toast.success('Remove film from watchlist')
       return response.data
     } catch (error) {
+      console.log('error removeFromWatchlist', error)
       return rejectWithValue(error.response.data)
     }
   }
 )
 
-const authSlice = createSlice({
+const watchlistSlice = createSlice({
   name: 'watchlist',
   initialState,
   reducers: {},
@@ -64,8 +58,10 @@ const authSlice = createSlice({
       state.loading = true
     },
     [getWatchlist.fulfilled]: (state, action) => {
+      console.log('action.payload', action.payload)
       state.loading = false
-      state.watchlist = action.payload
+      state.watchlist =
+        action.payload?.watchlist_movies ?? initialState.watchlist
     },
     [getWatchlist.rejected]: (state, action) => {
       state.loading = false
@@ -73,20 +69,20 @@ const authSlice = createSlice({
     },
     [addToWatchlist.pending]: (state, action) => {
       const {
-        arg: { movieData }
+        arg: { movieId }
       } = action.meta
-      // console.log('movieData', movieData)
+      console.log('movieData', action.meta)
 
-      state.addInLoading = { inLoading: true, movieId: movieData._id }
+      state.addInLoading = { inLoading: true, movieId }
     },
     [addToWatchlist.fulfilled]: (state, action) => {
       state.loading = false
-      state.watchlist = [...state.watchlist, { ...action.payload.data }]
+      state.watchlist =
+        action.payload?.data.watchlist_movies ?? initialState.watchlist
       state.addInLoading = initialState.addInLoading
     },
     [addToWatchlist.rejected]: (state, action) => {
       state.loading = false
-
       state.error = action.payload.message
       state.addInLoading = initialState.addInLoading
     },
@@ -105,15 +101,14 @@ const authSlice = createSlice({
       const {
         arg: { movieId }
       } = action.meta
-
+      console.log('movieId', movieId)
       if (movieId) {
-        state.watchlist = state.watchlist.filter(
-          item => item.movie_id !== movieId
-        )
+        state.watchlist = state.watchlist.filter(item => item._id !== movieId)
       }
       state.addInLoading = initialState.addInLoading
     },
     [removeFromWatchlist.rejected]: (state, action) => {
+      console.log('removeFromWatchlist', action)
       state.loading = false
       state.error = action.payload.message
       state.addInLoading = initialState.addInLoading
@@ -122,6 +117,6 @@ const authSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setToken, setLogout } = authSlice.actions
+export const { setToken, setLogout } = watchlistSlice.actions
 
-export default authSlice.reducer
+export default watchlistSlice.reducer
