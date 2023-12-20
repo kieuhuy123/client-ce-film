@@ -25,7 +25,6 @@ const Login = () => {
   const handleSubmit = e => {
     e.preventDefault()
     if (email && password) {
-      console.log(formValue)
       dispatch(login({ formValue, navigate, toast }))
     }
   }

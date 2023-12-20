@@ -16,7 +16,6 @@ export const rateMovie = createAsyncThunk(
       const response = await api.rateMovie(userId, movieId, rateValue)
       return response.data
     } catch (error) {
-      console.log('error', error.response)
       return rejectWithValue(error.response.data)
     }
   }
@@ -26,11 +25,9 @@ export const getRateMovie = createAsyncThunk(
   'rating/getRated',
   async (userId, { rejectWithValue }) => {
     try {
-      console.log('userId', userId)
       const response = await api.getRatedMovie(userId)
       return response.data
     } catch (error) {
-      console.log('error', error.response)
       return rejectWithValue(error.response.data)
     }
   }

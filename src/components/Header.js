@@ -29,7 +29,6 @@ const Header = () => {
   const { email, exp } = useAuth()
 
   if (exp && exp * 1000 < new Date().getTime()) {
-    console.log('expire')
     dispatch(setLogout())
   }
 

@@ -58,7 +58,7 @@ const AddMovie = () => {
   const { movie, loading, error } = useSelector(state => ({
     ...state.movie
   }))
-  console.log('error', error)
+
   const [movieData, setMovieData] = useState(initialState)
 
   const dispatch = useDispatch()

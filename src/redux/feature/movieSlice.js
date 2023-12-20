@@ -40,12 +40,11 @@ export const createMovie = createAsyncThunk(
   async ({ movieData, navigate, toast }, { rejectWithValue }) => {
     try {
       const response = await api.createMovie(movieData)
-      console.log('response', response)
+
       toast.success('Create movie successfully')
       navigate('/')
       return response.data
     } catch (error) {
-      console.log('error', error)
       return rejectWithValue(error.response.data)
     }
   }
@@ -85,7 +84,6 @@ export const getRelatedMovies = createAsyncThunk(
   'movie/relatedMovies',
   async ({ alias, genre }, { rejectWithValue }) => {
     try {
-      // console.log('relatedMovieData', { alias, genre })
       const relatedMovieData = { alias, genre }
       const response = await api.getRelatedMovies(relatedMovieData)
 
@@ -133,11 +131,9 @@ const movieSlice = createSlice({
       state.loading = true
     },
     [createMovie.fulfilled]: (state, action) => {
-      console.log('createMovie fulfilled', action)
       state.loading = false
     },
     [createMovie.rejected]: (state, action) => {
-      console.log('createMovie rejected', action)
       state.error = action.payload.message
       state.loading = false
     },
@@ -145,11 +141,9 @@ const movieSlice = createSlice({
       state.loading = true
     },
     [updateMovie.fulfilled]: (state, action) => {
-      console.log('updateMovie fulfilled', action)
       state.loading = false
     },
     [updateMovie.rejected]: (state, action) => {
-      console.log('rejected', action)
       state.loading = false
       state.error = action.payload.message
     },

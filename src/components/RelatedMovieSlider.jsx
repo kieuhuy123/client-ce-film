@@ -8,7 +8,6 @@ import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 
 const RelatedMovieSlider = ({ relatedMovies }) => {
-  console.log('relatedMovies ne', relatedMovies)
   return (
     <div>
       <Swiper

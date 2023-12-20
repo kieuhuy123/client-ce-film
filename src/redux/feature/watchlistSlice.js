@@ -23,9 +23,7 @@ export const getWatchlist = createAsyncThunk(
 export const addToWatchlist = createAsyncThunk(
   'watchlist/addToWatchlist',
   async ({ userId, movieId, toast }, { rejectWithValue }) => {
-    console.log('hello')
     try {
-      console.log('add to Watchlist')
       const response = await api.addToWatchlist(userId, movieId)
       toast.success('Add film to watchlist')
       return response.data
@@ -43,7 +41,6 @@ export const removeFromWatchlist = createAsyncThunk(
       toast.success('Remove film from watchlist')
       return response.data
     } catch (error) {
-      console.log('error removeFromWatchlist', error)
       return rejectWithValue(error.response.data)
     }
   }
@@ -58,7 +55,6 @@ const watchlistSlice = createSlice({
       state.loading = true
     },
     [getWatchlist.fulfilled]: (state, action) => {
-      console.log('action.payload', action.payload)
       state.loading = false
       state.watchlist =
         action.payload?.watchlist_movies ?? initialState.watchlist
@@ -71,7 +67,6 @@ const watchlistSlice = createSlice({
       const {
         arg: { movieId }
       } = action.meta
-      console.log('movieData', action.meta)
 
       state.addInLoading = { inLoading: true, movieId }
     },
@@ -92,8 +87,6 @@ const watchlistSlice = createSlice({
         arg: { movieId }
       } = action.meta
 
-      console.log('movieId', movieId)
-
       state.addInLoading = { inLoading: true, movieId }
     },
     [removeFromWatchlist.fulfilled]: (state, action) => {
@@ -101,14 +94,13 @@ const watchlistSlice = createSlice({
       const {
         arg: { movieId }
       } = action.meta
-      console.log('movieId', movieId)
+
       if (movieId) {
         state.watchlist = state.watchlist.filter(item => item._id !== movieId)
       }
       state.addInLoading = initialState.addInLoading
     },
     [removeFromWatchlist.rejected]: (state, action) => {
-      console.log('removeFromWatchlist', action)
       state.loading = false
       state.error = action.payload.message
       state.addInLoading = initialState.addInLoading

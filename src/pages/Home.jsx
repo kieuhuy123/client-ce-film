@@ -7,8 +7,7 @@ import './Home.css'
 import useAuth from '../utils/useAuth'
 import { getWatchlist } from '../redux/feature/watchlistSlice'
 import TopBanner from '../components/TopBanner'
-import { getRateMovie, setOpen } from '../redux/feature/ratingSlice'
-import RatingDialog from '../components/RatingDialog'
+import { getRateMovie } from '../redux/feature/ratingSlice'
 
 const Home = () => {
   const { movies, loading, currentPage, numberOfPages } = useSelector(
@@ -20,10 +19,6 @@ const Home = () => {
   const { userId } = useAuth()
 
   const dispatch = useDispatch()
-
-  const handleCloseRate = () => {
-    dispatch(setOpen(false))
-  }
 
   useEffect(() => {
     dispatch(getMovies(currentPage))
