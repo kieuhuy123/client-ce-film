@@ -109,6 +109,6 @@ const watchlistSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setToken, setLogout } = watchlistSlice.actions
+export const { setToken } = watchlistSlice.actions
 
 export default watchlistSlice.reducer
