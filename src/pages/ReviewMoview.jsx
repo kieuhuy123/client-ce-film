@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import useAuth from '../utils/useAuth'
+import useAuth from '../hooks/useAuth'
 import { getMovie } from '../redux/feature/movieSlice'
 import { getWatchlist } from '../redux/feature/watchlistSlice'
 

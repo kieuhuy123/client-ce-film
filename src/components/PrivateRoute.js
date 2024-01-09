@@ -1,6 +1,6 @@
 import React from 'react'
 
-import useAuth from '../utils/useAuth'
+import useAuth from '../hooks/useAuth'
 import { Navigate, useLocation } from 'react-router-dom'
 import LoadingToRedirect from './LoadingToRedirect'
 

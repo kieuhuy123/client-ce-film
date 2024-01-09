@@ -1,14 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import useAuth from '../utils/useAuth'
-import { getMovie } from '../redux/feature/movieSlice'
-import { getWatchlist } from '../redux/feature/watchlistSlice'
 
 const MainReview = () => {
   const dispatch = useDispatch()
-
-  const { email } = useAuth()
 
   const { movie, loading } = useSelector(state => ({
     ...state.movie

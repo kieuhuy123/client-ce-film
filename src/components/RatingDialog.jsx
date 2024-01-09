@@ -18,7 +18,7 @@ import {
   setOpen,
   updateRatingMovie
 } from '../redux/feature/ratingSlice'
-import useAuth from '../utils/useAuth'
+import useAuth from '../hooks/useAuth'
 
 const RateDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -34,14 +34,13 @@ const RateDialog = styled(Dialog)(({ theme }) => ({
 const RatingDialog = ({ film, open, handleClose }) => {
   const [rating, setRating] = useState(null)
   const [hover, setHover] = useState(null)
-
-  const { rated } = useSelector(state => ({ ...state.rating }))
-
-  const ratedMovie = rated.find(item => item.movieId === film._id)
-
   const { userId } = useAuth()
 
   const dispatch = useDispatch()
+
+  const { rated } = useSelector(state => ({ ...state.rating }))
+
+  const ratedMovie = rated ? rated.find(item => item.movieId === film._id) : ''
 
   const handleRate = () => {
     if (ratedMovie) {
@@ -108,7 +107,7 @@ const RatingDialog = ({ film, open, handleClose }) => {
             {[...Array(10)].map((star, index) => {
               const currentRating = index + 1
               return (
-                <label>
+                <label key={index}>
                   <input
                     type='radio'
                     name='rating'

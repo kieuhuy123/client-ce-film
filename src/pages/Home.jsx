@@ -4,18 +4,14 @@ import { getMovies } from '../redux/feature/movieSlice'
 import FilmList from '../components/FilmList'
 // Css
 import './Home.css'
-import useAuth from '../utils/useAuth'
+import useAuth from '../hooks/useAuth'
 import { getWatchlist } from '../redux/feature/watchlistSlice'
 import TopBanner from '../components/TopBanner'
 import { getRateMovie } from '../redux/feature/ratingSlice'
 
 const Home = () => {
-  const { movies, loading, currentPage, numberOfPages } = useSelector(
-    state => ({
-      ...state.movie
-    })
-  )
-
+  const stateMovie = useSelector(state => state.movie)
+  const { movies, loading, currentPage, numberOfPages, error } = stateMovie
   const { userId } = useAuth()
 
   const dispatch = useDispatch()

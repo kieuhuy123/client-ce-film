@@ -20,7 +20,7 @@ const defaultRate = 7
 const FilmItem = memo(function ({ film, type }) {
   const dispatch = useDispatch()
 
-  const { rated } = useSelector(state => ({ ...state.rating }))
+  const rated = useSelector(state => state.rating.rated)
 
   const ratedMovie = rated.find(item => item.movieId === film._id)
 

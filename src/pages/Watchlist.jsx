@@ -6,7 +6,7 @@ import FilmList from '../components/FilmList'
 // Css
 import './Home.css'
 import { getWatchlist } from '../redux/feature/watchlistSlice'
-import useAuth from '../utils/useAuth'
+import useAuth from '../hooks/useAuth'
 import { getRateMovie } from '../redux/feature/ratingSlice'
 const Watchlist = () => {
   const { watchlist, loading, error } = useSelector(state => ({

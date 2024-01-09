@@ -12,16 +12,16 @@ import {
 } from '../redux/feature/watchlistSlice'
 
 import toast from 'react-hot-toast'
-import useAuth from '../utils/useAuth'
+import useAuth from '../hooks/useAuth'
 
 const BtnWatchlist = ({ film, type }) => {
   const dispatch = useDispatch()
 
   const { userId } = useAuth()
 
-  const { watchlist, addInLoading } = useSelector(state => ({
-    ...state.watchlist
-  }))
+  const stateWatchlist = useSelector(state => state.watchlist)
+
+  const { watchlist, addInLoading } = stateWatchlist
 
   let loadBtn = false
   addInLoading.movieId === film._id ? (loadBtn = true) : (loadBtn = false)

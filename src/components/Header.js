@@ -17,9 +17,9 @@ import {
 } from '@mui/material'
 //
 import './Navbar.css'
-import useAuth from '../utils/useAuth'
+import useAuth from '../hooks/useAuth'
 import { useDispatch } from 'react-redux'
-import { setLogout } from '../redux/feature/authSlice'
+import { logout } from '../redux/feature/authSlice'
 import toast from 'react-hot-toast'
 
 const Header = () => {
@@ -28,9 +28,9 @@ const Header = () => {
   const [open, setClick] = useState(false)
   const { email, exp } = useAuth()
 
-  if (exp && exp * 1000 < new Date().getTime()) {
-    dispatch(setLogout())
-  }
+  // if (exp && exp * 1000 < new Date().getTime()) {
+  //   dispatch(logout({ navigate, toast }))
+  // }
 
   const closeMobile = () => setClick(!open)
 
@@ -46,8 +46,7 @@ const Header = () => {
   }
 
   const handleLogout = () => {
-    dispatch(setLogout())
-    toast.success('logout')
+    dispatch(logout({ navigate, toast }))
   }
 
   return (

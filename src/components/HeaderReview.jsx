@@ -10,7 +10,7 @@ import { Button, Icon, IconButton, Tooltip } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 
-import useAuth from '../utils/useAuth'
+import useAuth from '../hooks/useAuth'
 import toast from 'react-hot-toast'
 import Swal from 'sweetalert2'
 import { deleteMovie } from '../redux/feature/movieSlice'
