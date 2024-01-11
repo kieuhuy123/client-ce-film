@@ -11,7 +11,9 @@ const useAuth = () => {
     const decoded = jwtDecode(token)
 
     const { exp, userId, email, roles } = decoded
-    localStorage.setItem('userId', JSON.stringify({ userId }))
+    if (userId) {
+      localStorage.setItem('userId', JSON.stringify({ userId }))
+    }
     isAdmin = roles.includes(9999)
 
     if (isAdmin) status = 'Admin'

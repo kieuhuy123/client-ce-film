@@ -53,18 +53,30 @@ API.interceptors.response.use(
 
     const { code, message } = error.response.data
     console.log('message error', message)
-    if (message && message === 'jwt expired' && code && code === 401) {
+
+    if (message && message === 'accessToken expired' && code && code === 401) {
       console.log('TH het han token')
       // 1 - Get token from refreshToken
       const {
         metadata: { tokens }
       } = await handleRefreshToken()
-      console.log('tokens', tokens)
+
       if (tokens) {
         localStorage.setItem('profile', JSON.stringify(tokens))
 
         return API(config)
       }
+    }
+
+    if (
+      message &&
+      (message === 'refreshToken expired' ||
+        message === 'Invalid refreshToken' ||
+        message === 'Not found keyStore' ||
+        message === 'Something wrong happen!! Please reLogin')
+    ) {
+      localStorage.clear()
+      window.location.reload()
     }
 
     return Promise.reject(error)
