@@ -98,10 +98,10 @@ export const createMovie = movieData => API.post(`/v1/api/movie`, movieData)
 export const updateMovie = (movieData, movieId) =>
   API.patch(`/v1/api/movie/${movieId}`, movieData)
 
-export const deleteMovie = alias => API.delete(`/movie/${alias}`)
+export const deleteMovie = movieId => API.delete(`/v1/api/movie/${movieId}`)
 
 export const getRelatedMovies = relatedMovieData =>
-  API.post(`/movie/related`, relatedMovieData)
+  API.post(`/v1/api/movie/related`, relatedMovieData)
 
 // Watchlist
 export const getWatchlist = userId => API.get(`/watchlist/?userId=${userId}`)

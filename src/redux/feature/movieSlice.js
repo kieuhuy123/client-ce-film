@@ -69,9 +69,9 @@ export const updateMovie = createAsyncThunk(
 
 export const deleteMovie = createAsyncThunk(
   'movie/deleteMovie',
-  async ({ alias, navigate, toast }, { rejectWithValue }) => {
+  async ({ movieId, navigate, toast }, { rejectWithValue }) => {
     try {
-      const response = await api.deleteMovie(alias)
+      const response = await api.deleteMovie(movieId)
       toast.success('Delete movie successfully')
       navigate('/')
       return response.data
@@ -83,9 +83,9 @@ export const deleteMovie = createAsyncThunk(
 
 export const getRelatedMovies = createAsyncThunk(
   'movie/relatedMovies',
-  async ({ alias, genre }, { rejectWithValue }) => {
+  async ({ movieId, genre }, { rejectWithValue }) => {
     try {
-      const relatedMovieData = { alias, genre }
+      const relatedMovieData = { movieId, genre }
       const response = await api.getRelatedMovies(relatedMovieData)
 
       return response.data
@@ -153,7 +153,6 @@ const movieSlice = createSlice({
     },
     [deleteMovie.fulfilled]: (state, action) => {
       state.loading = false
-      state.movie = action.payload
     },
     [deleteMovie.rejected]: (state, action) => {
       state.loading = false
@@ -164,7 +163,7 @@ const movieSlice = createSlice({
     },
     [getRelatedMovies.fulfilled]: (state, action) => {
       state.loading = false
-      state.relatedMovies = action.payload
+      state.relatedMovies = action.payload.metadata
     },
     [getRelatedMovies.rejected]: (state, action) => {
       state.loading = false

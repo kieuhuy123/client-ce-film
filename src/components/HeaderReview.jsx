@@ -24,6 +24,8 @@ const HeaderReview = ({ alias }) => {
     ...state.movie
   }))
 
+  const movieId = movie._id
+
   const { isAdmin } = useAuth()
 
   const cld = new Cloudinary({
@@ -37,16 +39,16 @@ const HeaderReview = ({ alias }) => {
   const handleDelete = e => {
     e.preventDefault()
     Swal.fire({
-      title: 'Are you sure',
-      text: "You won't be able to revert this!",
+      title: 'Xóa phim',
+      text: 'Bạn chắc chắn muốn xóa phim này chứ!',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, cancel!',
+      confirmButtonText: 'Đồng ý!',
+      cancelButtonText: 'Không, quay lại!',
       reverseButtons: true
     }).then(result => {
       if (result.isConfirmed) {
-        dispatch(deleteMovie({ alias, navigate, toast }))
+        dispatch(deleteMovie({ movieId, navigate, toast }))
       }
     })
   }

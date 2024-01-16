@@ -39,7 +39,7 @@ const PlayMovie = () => {
 
   useEffect(() => {
     if (alias && movie?.genre) {
-      dispatch(getRelatedMovies({ alias, genre: movie.genre }))
+      dispatch(getRelatedMovies({ movieId: movie._id, genre: movie.genre }))
     }
   }, [alias, dispatch, movie?.genre])
 
