@@ -52,9 +52,10 @@ export const createMovie = createAsyncThunk(
 
 export const updateMovie = createAsyncThunk(
   'movie/updateMovie',
-  async ({ movieData, alias, navigate, toast }, { rejectWithValue }) => {
+  async ({ movieData, navigate, toast }, { rejectWithValue }) => {
     try {
-      const response = await api.updateMovie(movieData, alias)
+      const movieId = movieData._id
+      const response = await api.updateMovie(movieData, movieId)
 
       toast.success('Update movie successfully')
       navigate('/')
@@ -108,9 +109,9 @@ const movieSlice = createSlice({
     },
     [getMovies.fulfilled]: (state, action) => {
       state.loading = false
-      state.movies = action.payload.data
-      state.numberOfPages = action.payload.numberOfPages
-      state.currentPage = action.payload.currentPage
+      state.movies = action.payload.metadata.movies
+      state.numberOfPages = action.payload.metadata.numberOfPages
+      state.currentPage = action.payload.metadata.currentPage
     },
     [getMovies.rejected]: (state, action) => {
       state.loading = false
@@ -121,7 +122,7 @@ const movieSlice = createSlice({
     },
     [getMovie.fulfilled]: (state, action) => {
       state.loading = false
-      state.movie = action.payload
+      state.movie = action.payload.metadata
     },
     [getMovie.rejected]: (state, action) => {
       state.loading = false

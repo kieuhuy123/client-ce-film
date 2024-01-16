@@ -90,11 +90,14 @@ export const logout = () => API.post('/v1/api/user/logout')
 export const refreshToken = () => API.post('/v1/api/user/refreshToken')
 
 // Movie
-export const getMovies = page => API.get(`/movie?page=${page}`)
-export const getMovie = alias => API.get(`/movie/${alias}`)
-export const createMovie = movieData => API.post(`/movie`, movieData)
-export const updateMovie = (movieData, alias) =>
-  API.patch(`/movie/${alias}`, movieData)
+export const getMovies = page => API.get(`/v1/api/movie?page=${page}`)
+
+export const getMovie = alias => API.get(`/v1/api/movie/${alias}`)
+export const createMovie = movieData => API.post(`/v1/api/movie`, movieData)
+
+export const updateMovie = (movieData, movieId) =>
+  API.patch(`/v1/api/movie/${movieId}`, movieData)
+
 export const deleteMovie = alias => API.delete(`/movie/${alias}`)
 
 export const getRelatedMovies = relatedMovieData =>

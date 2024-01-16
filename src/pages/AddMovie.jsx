@@ -169,7 +169,7 @@ const AddMovie = () => {
   const handleSubmit = e => {
     e.preventDefault()
     if (alias) {
-      dispatch(updateMovie({ movieData, alias, navigate, toast }))
+      dispatch(updateMovie({ movieData, navigate, toast }))
     } else {
       dispatch(createMovie({ movieData, navigate, toast }))
     }
