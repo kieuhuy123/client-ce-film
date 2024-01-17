@@ -18,6 +18,7 @@ import ReviewMoview from './pages/ReviewMoview'
 import { ROLES } from './lib/roles'
 import Watchlist from './pages/Watchlist'
 import PlayMovie from './pages/PlayMovie'
+import ListMovie from './pages/ListMovie'
 
 function App () {
   const dispatch = useDispatch()
@@ -40,6 +41,7 @@ function App () {
             <Route path='/register' element={<Register />} />
             <Route path='/review/:alias' element={<ReviewMoview />} />
             <Route path='/play/:alias' element={<PlayMovie />}></Route>
+            <Route path='/type/:type' element={<ListMovie />}></Route>
             <Route
               path='/addMovie'
               element={

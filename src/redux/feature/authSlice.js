@@ -44,6 +44,7 @@ export const logout = createAsyncThunk(
       const response = await api.logout()
       toast.success('Logout Successfully')
       navigate('/')
+      window.location.reload()
       return response.data
     } catch (err) {
       console.log('err', err.response)

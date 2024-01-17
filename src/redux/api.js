@@ -41,10 +41,7 @@ API.interceptors.response.use(
     return res
   },
   async error => {
-    console.log('err response ne', error)
-
     const config = error.config
-    console.log('config', config)
 
     if (config.url.includes('/v1/api/user/login')) {
       // Nhung route khong can check Token
@@ -92,8 +89,11 @@ export const refreshToken = () => API.post('/v1/api/user/refreshToken')
 // Movie
 export const getMovies = page => API.get(`/v1/api/movie?page=${page}`)
 
-export const getMovie = alias => API.get(`/v1/api/movie/${alias}`)
+export const getMovieByAlias = alias => API.get(`/v1/api/movie/${alias}`)
 export const createMovie = movieData => API.post(`/v1/api/movie`, movieData)
+
+export const getMovieByType = (type, page) =>
+  API.get(`/v1/api/movie/type/${type}?&page=${page}`)
 
 export const updateMovie = (movieData, movieId) =>
   API.patch(`/v1/api/movie/${movieId}`, movieData)

@@ -23,11 +23,11 @@ export const getMovies = createAsyncThunk(
   }
 )
 
-export const getMovie = createAsyncThunk(
-  'movie/getMovie',
+export const getMovieByAlias = createAsyncThunk(
+  'movie/getMovieByAlias',
   async (alias, { rejectWithValue }) => {
     try {
-      const response = await api.getMovie(alias)
+      const response = await api.getMovieByAlias(alias)
       return response.data
     } catch (error) {
       return rejectWithValue(error.response.data)
@@ -35,6 +35,17 @@ export const getMovie = createAsyncThunk(
   }
 )
 
+export const getMovieByType = createAsyncThunk(
+  'movie/getMovieByType',
+  async ({ type, currentPage: page }, { rejectWithValue }) => {
+    try {
+      const response = await api.getMovieByType(type, page)
+      return response.data
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
 export const createMovie = createAsyncThunk(
   'movie/createMovie',
   async ({ movieData, navigate, toast }, { rejectWithValue }) => {
@@ -117,14 +128,27 @@ const movieSlice = createSlice({
       state.loading = false
       state.error = action.payload.message
     },
-    [getMovie.pending]: (state, action) => {
+    [getMovieByAlias.pending]: (state, action) => {
       state.loading = true
     },
-    [getMovie.fulfilled]: (state, action) => {
+    [getMovieByAlias.fulfilled]: (state, action) => {
       state.loading = false
       state.movie = action.payload.metadata
     },
-    [getMovie.rejected]: (state, action) => {
+    [getMovieByAlias.rejected]: (state, action) => {
+      state.loading = false
+      state.error = action.payload.message
+    },
+    [getMovieByType.pending]: (state, action) => {
+      state.loading = true
+    },
+    [getMovieByType.fulfilled]: (state, action) => {
+      state.loading = false
+      state.movies = action.payload.metadata.movies
+      state.numberOfPages = action.payload.metadata.numberOfPages
+      state.currentPage = action.payload.metadata.currentPage
+    },
+    [getMovieByType.rejected]: (state, action) => {
       state.loading = false
       state.error = action.payload.message
     },
@@ -171,5 +195,7 @@ const movieSlice = createSlice({
     }
   }
 })
+// Action creators are generated for each case reducer function
+export const { setCurrentPage } = movieSlice.actions
 
 export default movieSlice.reducer

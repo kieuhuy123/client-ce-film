@@ -4,16 +4,19 @@ import { FaBars, FaTimes } from 'react-icons/fa'
 import { useState } from 'react'
 import { BsSearch } from 'react-icons/bs'
 import { ImFilm } from 'react-icons/im'
+import { MdAddToPhotos } from 'react-icons/md'
+import { MdCreate } from 'react-icons/md'
+import { LuLogOut } from 'react-icons/lu'
+
 import {
   Avatar,
   Button,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Paper,
-  Popover,
-  Tooltip
+  Tooltip,
+  IconButton,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  Divider
 } from '@mui/material'
 //
 import './Navbar.css'
@@ -21,16 +24,13 @@ import useAuth from '../hooks/useAuth'
 import { useDispatch } from 'react-redux'
 import { logout } from '../redux/feature/authSlice'
 import toast from 'react-hot-toast'
+import movieType from '../lib/movieType.json'
 
 const Header = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [open, setClick] = useState(false)
-  const { email, exp } = useAuth()
-
-  // if (exp && exp * 1000 < new Date().getTime()) {
-  //   dispatch(logout({ navigate, toast }))
-  // }
+  const { email } = useAuth()
 
   const closeMobile = () => setClick(!open)
 
@@ -62,39 +62,27 @@ const Header = () => {
             {click ? <FaTimes /> : <FaBars />}
           </div> */}
 
-        <ul className={open ? 'nav-menu active' : 'nav-menu'}>
+        <ul className={open ? 'nav-menu active me-auto' : 'nav-menu me-auto'}>
+          <li className='nav-item'>
+            <NavLink to='/' onClick={closeMobile}>
+              {'Phim mới'}
+            </NavLink>
+          </li>
+          {movieType.map(type => (
+            <li className='nav-item'>
+              <NavLink to={`type/${type.value}`} onClick={closeMobile}>
+                {type.label}
+              </NavLink>
+            </li>
+          ))}
+
           <li className='nav-item'>
             <Link to='search' onClick={closeMobile}>
               <span style={{ display: 'flex' }}>
                 <BsSearch style={{ fontSize: '20px', marginRight: '5px' }} />{' '}
-                Tìm kiếm
+                {'Tìm kiếm'}
               </span>
             </Link>
-          </li>
-          <li className='nav-item'>
-            <NavLink to='/' onClick={closeMobile}>
-              Phim mới
-            </NavLink>
-          </li>
-          <li className='nav-item'>
-            <NavLink to='the-loai/phim-chieu-rap' onClick={closeMobile}>
-              Phim chiếu rạp
-            </NavLink>
-          </li>
-          <li className='nav-item'>
-            <NavLink to='the-loai/phim-hoat-hinh' onClick={closeMobile}>
-              Phim hoạt hình
-            </NavLink>
-          </li>
-          <li className='nav-item'>
-            <NavLink to='the-loai/phim-bo' onClick={closeMobile}>
-              Phim bộ
-            </NavLink>
-          </li>
-          <li className='nav-item'>
-            <NavLink to='watchlist' onClick={closeMobile}>
-              Bộ sưu tập
-            </NavLink>
           </li>
         </ul>
 
@@ -107,81 +95,89 @@ const Header = () => {
             )}
           </Button>
 
-          {email ? (
-            <>
-              <Tooltip title='profile'>
-                <Avatar className='text-uppercase ' onClick={handleClick}>
-                  {email?.substring(0, 1)}
-                </Avatar>
-              </Tooltip>
+          <Tooltip title='profile'>
+            <IconButton
+              onClick={handleClick}
+              size='small'
+              sx={{ ml: 2 }}
+              aria-controls={open ? 'account-menu' : undefined}
+              aria-haspopup='true'
+              aria-expanded={open ? 'true' : undefined}
+            >
+              {email ? (
+                <Avatar>{email?.substring(0, 1)}</Avatar>
+              ) : (
+                <Avatar></Avatar>
+              )}
+            </IconButton>
+          </Tooltip>
 
-              <Popover
-                open={openAnchor}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'center'
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'center'
-                }}
-              >
-                <Paper>
-                  <List>
-                    <ListItem disablePadding>
-                      <ListItemButton onClick={() => navigate('/addMovie')}>
-                        <ListItemText primary='Add movie' />
-                      </ListItemButton>
-                    </ListItem>
-                    <ListItem disablePadding>
-                      <ListItemButton onClick={() => navigate('/Watchlist')}>
-                        <ListItemText primary='Watchlist' />
-                      </ListItemButton>
-                    </ListItem>
-                    <ListItem disablePadding>
-                      <ListItemButton onClick={handleLogout}>
-                        <ListItemText primary='Log out' />
-                      </ListItemButton>
-                    </ListItem>
-                  </List>
-                </Paper>
-              </Popover>
-            </>
-          ) : (
-            <>
-              <Tooltip title='profile'>
-                <Avatar
-                  className='text-uppercase '
-                  onClick={handleClick}
-                ></Avatar>
-              </Tooltip>
-              <Popover
-                open={openAnchor}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'center'
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'center'
-                }}
-              >
-                <Paper>
-                  <List>
-                    <ListItem disablePadding>
-                      <ListItemButton onClick={() => navigate('/login')}>
-                        <ListItemText primary='Login' />
-                      </ListItemButton>
-                    </ListItem>
-                  </List>
-                </Paper>
-              </Popover>
-            </>
-          )}
+          <Menu
+            anchorEl={anchorEl}
+            id='account-menu'
+            open={openAnchor}
+            onClose={handleClose}
+            onClick={handleClose}
+            PaperProps={{
+              elevation: 0,
+              sx: {
+                overflow: 'visible',
+                filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                mt: 1.5,
+                '& .MuiAvatar-root': {
+                  width: 32,
+                  height: 32,
+                  ml: -0.5,
+                  mr: 1
+                },
+                '&::before': {
+                  content: '""',
+                  display: 'block',
+                  position: 'absolute',
+                  top: 0,
+                  right: 14,
+                  width: 10,
+                  height: 10,
+                  bgcolor: 'background.paper',
+                  transform: 'translateY(-50%) rotate(45deg)',
+                  zIndex: 0
+                }
+              }
+            }}
+            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+          >
+            {email ? (
+              <>
+                <MenuItem onClick={() => navigate('/addMovie')}>
+                  <ListItemIcon>
+                    <MdCreate style={{ fontSize: '20px' }} />
+                  </ListItemIcon>
+                  {'Create movie'}
+                </MenuItem>
+                <MenuItem onClick={() => navigate('/Watchlist')}>
+                  <ListItemIcon>
+                    <MdAddToPhotos style={{ fontSize: '20px' }} />
+                  </ListItemIcon>
+                  {'Watch list'}
+                </MenuItem>
+                <Divider />
+                <MenuItem onClick={handleLogout}>
+                  <ListItemIcon>
+                    <LuLogOut style={{ fontSize: '20px' }} />
+                  </ListItemIcon>
+                  {'Logout'}
+                </MenuItem>
+              </>
+            ) : (
+              <MenuItem onClick={() => navigate('/login')}>
+                <ListItemIcon>
+                  <LuLogOut style={{ fontSize: '20px' }} />
+                </ListItemIcon>
+                {'Login'}
+              </MenuItem>
+            )}
+          </Menu>
         </div>
       </Container>
     </Navbar>

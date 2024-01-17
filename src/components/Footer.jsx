@@ -13,7 +13,7 @@ import { ImFilm } from 'react-icons/im'
 
 function Footer () {
   return (
-    <footer>
+    <footer className='mt-auto'>
       <div className='footer-container container'>
         <div className='footer-links '>
           <div className='footer-link-wrapper  '>

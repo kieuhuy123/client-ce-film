@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import useAuth from '../hooks/useAuth'
-import { getMovie } from '../redux/feature/movieSlice'
+import { getMovieByAlias } from '../redux/feature/movieSlice'
 import { getWatchlist } from '../redux/feature/watchlistSlice'
 
 import HeaderReview from '../components/HeaderReview'
@@ -22,7 +22,7 @@ const ReviewMoview = () => {
 
   useEffect(() => {
     if (alias) {
-      dispatch(getMovie(alias))
+      dispatch(getMovieByAlias(alias))
     }
   }, [alias, dispatch])
 

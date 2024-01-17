@@ -9,7 +9,7 @@ import {
   ReplayControl,
   ForwardControl
 } from 'video-react'
-import { getMovie, getRelatedMovies } from '../redux/feature/movieSlice'
+import { getMovieByAlias, getRelatedMovies } from '../redux/feature/movieSlice'
 
 import RelatedMovieSlider from '../components/RelatedMovieSlider'
 
@@ -24,7 +24,7 @@ const PlayMovie = () => {
 
   useEffect(() => {
     if (alias) {
-      dispatch(getMovie(alias))
+      dispatch(getMovieByAlias(alias))
     }
   }, [alias, dispatch])
 

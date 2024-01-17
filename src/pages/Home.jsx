@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getMovies } from '../redux/feature/movieSlice'
+import { getMovies, setCurrentPage } from '../redux/feature/movieSlice'
 import FilmList from '../components/FilmList'
 // Css
 import './Home.css'
@@ -8,6 +8,7 @@ import useAuth from '../hooks/useAuth'
 import { getWatchlist } from '../redux/feature/watchlistSlice'
 import TopBanner from '../components/TopBanner'
 import { getRateMovie } from '../redux/feature/ratingSlice'
+import Pagination from '@mui/material/Pagination'
 
 const Home = () => {
   const stateMovie = useSelector(state => state.movie)
@@ -16,11 +17,14 @@ const Home = () => {
 
   const dispatch = useDispatch()
 
+  const handlePageChange = (e, value) => {
+    dispatch(setCurrentPage(value))
+  }
   useEffect(() => {
     dispatch(getMovies(currentPage))
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [currentPage])
 
   // Get watchlist
   useEffect(() => {
@@ -43,7 +47,7 @@ const Home = () => {
     <>
       <TopBanner />
       <div className='container'>
-        <div className='col'>
+        <div className='row'>
           <div className='col-12 col-xl-9'>
             <div className='section-title-wrapper'>
               <h2 className='section-title'>Phim mới</h2>
@@ -52,6 +56,14 @@ const Home = () => {
               <div className='tabs-content'>
                 <FilmList film={movies} />
               </div>
+            </div>
+            <div className='d-flex justify-content-center  mb-4'>
+              <Pagination
+                color='primary'
+                count={numberOfPages}
+                page={currentPage}
+                onChange={handlePageChange}
+              />
             </div>
           </div>
 

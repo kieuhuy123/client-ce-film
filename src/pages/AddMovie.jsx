@@ -6,7 +6,11 @@ import { MuiChipsInput } from 'mui-chips-input'
 import { Cloudinary } from '@cloudinary/url-gen'
 import { AdvancedImage, responsive, placeholder } from '@cloudinary/react'
 import { useDispatch, useSelector } from 'react-redux'
-import { createMovie, getMovie, updateMovie } from '../redux/feature/movieSlice'
+import {
+  createMovie,
+  getMovieByAlias,
+  updateMovie
+} from '../redux/feature/movieSlice'
 import { useNavigate, useParams } from 'react-router-dom'
 import toast from 'react-hot-toast'
 
@@ -160,7 +164,7 @@ const AddMovie = () => {
   // get movie edit
   useEffect(() => {
     if (alias) {
-      dispatch(getMovie(alias))
+      dispatch(getMovieByAlias(alias))
     } else {
       setMovieData(initialState)
     }
