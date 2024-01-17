@@ -10,7 +10,7 @@ import {
   ForwardControl
 } from 'video-react'
 import { getMovie, getRelatedMovies } from '../redux/feature/movieSlice'
-import { Cloudinary } from '@cloudinary/url-gen'
+
 import RelatedMovieSlider from '../components/RelatedMovieSlider'
 
 const PlayMovie = () => {
@@ -22,15 +22,6 @@ const PlayMovie = () => {
     ...state.movie
   }))
 
-  //   const cld = new Cloudinary({
-  //     cloud: {
-  //       cloudName: 'dladhhg6i'
-  //     }
-  //   })
-
-  //   const myImage = cld.image(movie?.image)
-  //   console.log('myImage', myImage)
-
   useEffect(() => {
     if (alias) {
       dispatch(getMovie(alias))
@@ -41,7 +32,7 @@ const PlayMovie = () => {
     if (alias && movie?.genre) {
       dispatch(getRelatedMovies({ movieId: movie._id, genre: movie.genre }))
     }
-  }, [alias, dispatch, movie?.genre])
+  }, [alias, dispatch, movie?.genre, movie._id])
 
   return (
     <div className='container'>

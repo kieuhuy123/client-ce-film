@@ -1,7 +1,7 @@
-import React, { Suspense, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Container, Row, Col } from 'react-bootstrap'
-import { getMovies } from '../redux/feature/movieSlice'
+
 import FilmList from '../components/FilmList'
 // Css
 import './Home.css'
@@ -9,7 +9,7 @@ import { getWatchlist } from '../redux/feature/watchlistSlice'
 import useAuth from '../hooks/useAuth'
 import { getRateMovie } from '../redux/feature/ratingSlice'
 const Watchlist = () => {
-  const { watchlist, loading, error } = useSelector(state => ({
+  const { watchlist, loading } = useSelector(state => ({
     ...state.watchlist
   }))
 

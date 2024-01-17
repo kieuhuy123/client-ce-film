@@ -9,9 +9,10 @@ import { setOpen } from '../redux/feature/ratingSlice'
 
 const Layout = () => {
   const dispatch = useDispatch()
-  const { openDialog, movieIsRating } = useSelector(state => ({
-    ...state.rating
-  }))
+
+  const ratingState = useSelector(state => state.rating)
+
+  const { openDialog, movieIsRating } = ratingState
 
   const handleCloseRate = () => {
     dispatch(setOpen(false))

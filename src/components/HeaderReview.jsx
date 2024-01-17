@@ -1,12 +1,12 @@
-import React, { Suspense, memo, useEffect } from 'react'
+import React from 'react'
 import { BsFillTagsFill } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { toLabelGenre } from '../utils/toLabelGenre'
 import { Cloudinary } from '@cloudinary/url-gen'
 import { AdvancedImage } from '@cloudinary/react'
-import { Button, Icon, IconButton, Tooltip } from '@mui/material'
+import { Button, IconButton, Tooltip } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 
@@ -53,9 +53,9 @@ const HeaderReview = ({ alias }) => {
     })
   }
 
-  function Loading () {
-    return <h2>🌀 Loading...</h2>
-  }
+  // function Loading () {
+  //   return <h2>🌀 Loading...</h2>
+  // }
   return (
     <div
       className='background-page-header'
@@ -129,7 +129,7 @@ const HeaderReview = ({ alias }) => {
               <div className='mt-3'>
                 <BtnWatchlist film={movie} />
               </div>
-              {/* <Suspense fallback={<Loading />}> */}
+
               <div className='header-short-description text-white mt-3'>
                 <p>
                   {'Thời lượng: ' + movie?.info?.time}
@@ -145,7 +145,6 @@ const HeaderReview = ({ alias }) => {
                   {'Quốc gia: ' + movie?.info?.nation}
                 </p>
               </div>
-              {/* </Suspense> */}
             </div>
           </div>
         </div>

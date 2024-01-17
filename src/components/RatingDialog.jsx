@@ -38,8 +38,8 @@ const RatingDialog = ({ film, open, handleClose }) => {
 
   const dispatch = useDispatch()
 
-  const { rated } = useSelector(state => ({ ...state.rating }))
-
+  const ratingState = useSelector(state => state.rating)
+  const { rated } = ratingState
   const ratedMovie = rated ? rated.find(item => item.movieId === film._id) : ''
 
   const handleRate = () => {
