@@ -95,6 +95,9 @@ export const createMovie = movieData => API.post(`/v1/api/movie`, movieData)
 export const getMovieByType = (type, page) =>
   API.get(`/v1/api/movie/type/${type}?&page=${page}`)
 
+export const getMovieByGenre = (genre, page) =>
+  API.get(`/v1/api/movie/genre/${genre}?&page=${page}`)
+
 export const updateMovie = (movieData, movieId) =>
   API.patch(`/v1/api/movie/${movieId}`, movieData)
 

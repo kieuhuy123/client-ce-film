@@ -46,6 +46,19 @@ export const getMovieByType = createAsyncThunk(
     }
   }
 )
+
+export const getMovieByGenre = createAsyncThunk(
+  'movie/getMovieByGenre',
+  async ({ genre, currentPage: page }, { rejectWithValue }) => {
+    try {
+      const response = await api.getMovieByGenre(genre, page)
+      return response.data
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
+
 export const createMovie = createAsyncThunk(
   'movie/createMovie',
   async ({ movieData, navigate, toast }, { rejectWithValue }) => {
@@ -136,6 +149,19 @@ const movieSlice = createSlice({
       state.movie = action.payload.metadata
     },
     [getMovieByAlias.rejected]: (state, action) => {
+      state.loading = false
+      state.error = action.payload.message
+    },
+    [getMovieByGenre.pending]: (state, action) => {
+      state.loading = true
+    },
+    [getMovieByGenre.fulfilled]: (state, action) => {
+      state.loading = false
+      state.movies = action.payload.metadata.movies
+      state.numberOfPages = action.payload.metadata.numberOfPages
+      state.currentPage = action.payload.metadata.currentPage
+    },
+    [getMovieByGenre.rejected]: (state, action) => {
       state.loading = false
       state.error = action.payload.message
     },

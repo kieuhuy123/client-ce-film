@@ -42,6 +42,7 @@ function App () {
             <Route path='/review/:alias' element={<ReviewMoview />} />
             <Route path='/play/:alias' element={<PlayMovie />}></Route>
             <Route path='/type/:type' element={<ListMovie />}></Route>
+            <Route path='/genre/:genre' element={<ListMovie />}></Route>
             <Route
               path='/addMovie'
               element={

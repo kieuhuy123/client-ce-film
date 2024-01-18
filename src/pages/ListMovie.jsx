@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { getMovieByType, getMovies } from '../redux/feature/movieSlice'
+import { getMovieByGenre, getMovieByType } from '../redux/feature/movieSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import useAuth from '../hooks/useAuth'
 import { getWatchlist } from '../redux/feature/watchlistSlice'
@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom'
 const ListMovie = () => {
   const params = useParams()
   const type = params?.type
+  const genre = params?.genre
 
   const stateMovie = useSelector(state => state.movie)
   const { movies, loading, currentPage, numberOfPages, error } = stateMovie
@@ -18,9 +19,18 @@ const ListMovie = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getMovieByType({ type, currentPage }))
+    if (type) {
+      dispatch(getMovieByType({ type, currentPage }))
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type, currentPage])
+
+  useEffect(() => {
+    if (genre) {
+      dispatch(getMovieByGenre({ genre, currentPage }))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [genre, currentPage])
 
   // Get watchlist
   useEffect(() => {
