@@ -1,6 +1,6 @@
 :root {
   --main-color: #c0392b;
-  --body-bg: #181616;
+  --body-bg: #101418;
   --box-bg: #080202;
   --text-color: #ffffff;
 
@@ -74,7 +74,11 @@ h6 {
   font-weight: 700;
   margin-bottom: 10px;
 }
-
+.App {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 /* Button */
 .w-button {
   display: inline-block;

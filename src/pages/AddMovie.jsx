@@ -28,7 +28,7 @@ import {
   MenuItem,
   TextField
 } from '@mui/material'
-
+import { ThemeProvider, createTheme } from '@mui/material/styles'
 const initialState = {
   title: '',
   alias: '',
@@ -58,11 +58,16 @@ const MenuProps = {
     }
   }
 }
+
 const AddMovie = () => {
   const { movie, loading, error } = useSelector(state => ({
     ...state.movie
   }))
-
+  const lightTheme = createTheme({
+    palette: {
+      mode: 'light'
+    }
+  })
   const [movieData, setMovieData] = useState(initialState)
 
   const dispatch = useDispatch()
@@ -184,236 +189,240 @@ const AddMovie = () => {
   }
 
   return (
-    <div className='bg-white p-5'>
-      <Container>
-        <form className='mt-3' onSubmit={handleSubmit}>
-          <div className='mb-2 mb-lg-4 bg-white p-3 p-lg-4 rounded-3 shadow-sm'>
-            <div className='row'>
-              <div className='col-12 col-lg-6'>
-                <FormControl fullWidth className='mb-3'>
-                  <TextField
-                    className='bg-white'
-                    name='title'
-                    label='Tên phim'
-                    value={title}
-                    onChange={onInputChange}
-                  ></TextField>
-                </FormControl>
-              </div>
-
-              <div className='col-12 col-lg-6'>
-                <FormControl fullWidth className='mb-3'>
-                  <InputLabel id='demo-simple-select-label' className=''>
-                    {'Đánh giá'}
-                  </InputLabel>
-                  <Select
-                    value={rate}
-                    name='rate'
-                    label='Đánh giá'
-                    onChange={onInputChange}
-                  >
-                    <MenuItem value={1}>1</MenuItem>
-                    <MenuItem value={2}>2</MenuItem>
-                    <MenuItem value={3}>3</MenuItem>
-                    <MenuItem value={4}>4</MenuItem>
-                    <MenuItem value={5}>5</MenuItem>
-                    <MenuItem value={6}>6</MenuItem>
-                    <MenuItem value={7}>7</MenuItem>
-                    <MenuItem value={8}>8</MenuItem>
-                    <MenuItem value={9}>9</MenuItem>
-                    <MenuItem value={10}>10</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-
-              <div className='col-12 col-lg-6'>
-                <FormControl fullWidth className='mb-3'>
-                  <InputLabel id='demo-simple-select-label' className=''>
-                    {'Chọn loại phim'}
-                  </InputLabel>
-                  <Select
-                    value={type}
-                    name='type'
-                    label='Chọn loại phim'
-                    onChange={onInputChange}
-                  >
-                    {movieType.map((type, index) => (
-                      <MenuItem key={index} value={type.value}>
-                        {type.label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
-
-              <div className='col-12 col-lg-6'>
-                <FormControl fullWidth className='mb-3'>
-                  <InputLabel id='demo-simple-select-label' className=''>
-                    {'Chọn thể loại'}
-                  </InputLabel>
-                  <Select
-                    value={genre}
-                    name='genre'
-                    label='Chọn thể loại'
-                    multiple
-                    onChange={onInputChange}
-                    renderValue={selected => (
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                        {selected.map((value, index) => (
-                          <Chip key={index} label={value} />
-                        ))}
-                      </Box>
-                    )}
-                    MenuProps={MenuProps}
-                  >
-                    {movieGenre.map((genre, index) => (
-                      <MenuItem key={index} value={genre.value}>
-                        {genre.label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
-
-              <div className='col-12 col-lg-6'>
-                <FormControl fullWidth className='mb-3'>
-                  <TextField
-                    className='bg-white'
-                    name='trailer'
-                    label='Trailer'
-                    value={trailer}
-                    onChange={onInputChange}
-                  ></TextField>
-                </FormControl>
-              </div>
-
-              <div className='col-12 col-lg-6'>
-                <FormControl fullWidth className='mb-3'>
-                  <TextField
-                    className='bg-white'
-                    name='video'
-                    label='Video'
-                    value={video}
-                    onChange={onInputChange}
-                  ></TextField>
-                </FormControl>
-              </div>
-
-              <div className='col-12 col-lg-6'>
-                <FormControl fullWidth className='mb-3'>
-                  <TextField
-                    className='bg-white'
-                    name='time'
-                    type='number'
-                    label='Thời lượng'
-                    value={info?.time}
-                    onChange={onInfoChange}
-                  ></TextField>
-                </FormControl>
-              </div>
-
-              <div className='col-12 col-lg-6'>
-                <FormControl fullWidth className='mb-3'>
-                  <TextField
-                    className='bg-white'
-                    name='nation'
-                    label='Quốc gia'
-                    value={info?.nation}
-                    onChange={onInfoChange}
-                  ></TextField>
-                </FormControl>
-              </div>
-
-              <div className='col-12 col-lg-6'>
-                <FormControl fullWidth className='mb-3'>
-                  <MuiChipsInput
-                    name='actors'
-                    label='Diễn viên'
-                    className='bg-white form-control'
-                    variant='outlined'
-                    placeholder='Enter Tag'
-                    fullWidth
-                    hideClearAll
-                    value={info?.actors}
-                    onAddChip={actor => handleAddActor(actor)}
-                    onDeleteChip={(actor, index) =>
-                      handleDeleteActor(actor, index)
-                    }
-                  />
-                </FormControl>
-              </div>
-
-              <div className='col-12 col-lg-6'>
-                <FormControl fullWidth className='mb-3'>
-                  <MuiChipsInput
-                    name='directors'
-                    label='Đạo diễn'
-                    className='bg-white form-control'
-                    variant='outlined'
-                    placeholder='Enter Tag'
-                    fullWidth
-                    hideClearAll
-                    value={info?.directors}
-                    onAddChip={director => handleAddDirector(director)}
-                    onDeleteChip={(director, index) =>
-                      handleDeleteDirector(director, index)
-                    }
-                  />
-                </FormControl>
-              </div>
-
-              <div className='col-12 col-lg-6 mb-3'>
-                <InputLabel>{'Image'}</InputLabel>
-                <div className=''>
-                  <UploadWidget setPublicId={setPublicId} />
+    <ThemeProvider theme={lightTheme}>
+      <div className='bg-white p-5'>
+        <Container>
+          <form className='mt-3' onSubmit={handleSubmit}>
+            <div className='mb-2 mb-lg-4 bg-white p-3 p-lg-4 rounded-3 shadow-sm'>
+              <div className='row'>
+                <div className='col-12 col-lg-6'>
+                  <FormControl fullWidth className='mb-3'>
+                    <TextField
+                      className='bg-white'
+                      name='title'
+                      label='Tên phim'
+                      value={title}
+                      onChange={onInputChange}
+                    ></TextField>
+                  </FormControl>
                 </div>
-                <div className='mt-3' style={{ width: '400px' }}>
-                  <AdvancedImage
-                    className=''
-                    style={{ maxWidth: '100%' }}
-                    cldImg={myImage}
-                    plugins={[responsive(), placeholder()]}
-                  />
+
+                <div className='col-12 col-lg-6'>
+                  <FormControl fullWidth className='mb-3'>
+                    <InputLabel id='demo-simple-select-label' className=''>
+                      {'Đánh giá'}
+                    </InputLabel>
+                    <Select
+                      value={rate}
+                      name='rate'
+                      label='Đánh giá'
+                      onChange={onInputChange}
+                    >
+                      <MenuItem value={1}>1</MenuItem>
+                      <MenuItem value={2}>2</MenuItem>
+                      <MenuItem value={3}>3</MenuItem>
+                      <MenuItem value={4}>4</MenuItem>
+                      <MenuItem value={5}>5</MenuItem>
+                      <MenuItem value={6}>6</MenuItem>
+                      <MenuItem value={7}>7</MenuItem>
+                      <MenuItem value={8}>8</MenuItem>
+                      <MenuItem value={9}>9</MenuItem>
+                      <MenuItem value={10}>10</MenuItem>
+                    </Select>
+                  </FormControl>
                 </div>
-              </div>
 
-              <div className='col-12 col-lg-6'>
-                <FormControl fullWidth className='mb-3'>
-                  <TextField
-                    className='bg-white'
-                    type='number'
-                    name='publish'
-                    label='Khởi chiếu'
-                    value={info?.publish}
-                    onChange={onInfoChange}
-                  ></TextField>
-                </FormControl>
-              </div>
+                <div className='col-12 col-lg-6'>
+                  <FormControl fullWidth className='mb-3'>
+                    <InputLabel id='demo-simple-select-label' className=''>
+                      {'Chọn loại phim'}
+                    </InputLabel>
+                    <Select
+                      value={type}
+                      name='type'
+                      label='Chọn loại phim'
+                      onChange={onInputChange}
+                    >
+                      {movieType.map((type, index) => (
+                        <MenuItem key={index} value={type.value}>
+                          {type.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </div>
 
-              <div className='col-12'>
-                <FormControl fullWidth className='mb-3'>
-                  <TextField
-                    className='bg-white'
-                    multiline
-                    rows={4}
-                    name='review'
-                    label='Review'
-                    value={review}
-                    onChange={onInputChange}
-                  ></TextField>
-                </FormControl>
-              </div>
+                <div className='col-12 col-lg-6'>
+                  <FormControl fullWidth className='mb-3'>
+                    <InputLabel id='demo-simple-select-label' className=''>
+                      {'Chọn thể loại'}
+                    </InputLabel>
+                    <Select
+                      value={genre}
+                      name='genre'
+                      label='Chọn thể loại'
+                      multiple
+                      onChange={onInputChange}
+                      renderValue={selected => (
+                        <Box
+                          sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}
+                        >
+                          {selected.map((value, index) => (
+                            <Chip key={index} label={value} />
+                          ))}
+                        </Box>
+                      )}
+                      MenuProps={MenuProps}
+                    >
+                      {movieGenre.map((genre, index) => (
+                        <MenuItem key={index} value={genre.value}>
+                          {genre.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </div>
 
-              <div className='col-12'>
-                <Button variant='primary' type='submit'>
-                  {'Submit'}
-                </Button>
+                <div className='col-12 col-lg-6'>
+                  <FormControl fullWidth className='mb-3'>
+                    <TextField
+                      className='bg-white'
+                      name='trailer'
+                      label='Trailer'
+                      value={trailer}
+                      onChange={onInputChange}
+                    ></TextField>
+                  </FormControl>
+                </div>
+
+                <div className='col-12 col-lg-6'>
+                  <FormControl fullWidth className='mb-3'>
+                    <TextField
+                      className='bg-white'
+                      name='video'
+                      label='Video'
+                      value={video}
+                      onChange={onInputChange}
+                    ></TextField>
+                  </FormControl>
+                </div>
+
+                <div className='col-12 col-lg-6'>
+                  <FormControl fullWidth className='mb-3'>
+                    <TextField
+                      className='bg-white'
+                      name='time'
+                      type='number'
+                      label='Thời lượng'
+                      value={info?.time}
+                      onChange={onInfoChange}
+                    ></TextField>
+                  </FormControl>
+                </div>
+
+                <div className='col-12 col-lg-6'>
+                  <FormControl fullWidth className='mb-3'>
+                    <TextField
+                      className='bg-white'
+                      name='nation'
+                      label='Quốc gia'
+                      value={info?.nation}
+                      onChange={onInfoChange}
+                    ></TextField>
+                  </FormControl>
+                </div>
+
+                <div className='col-12 col-lg-6'>
+                  <FormControl fullWidth className='mb-3'>
+                    <MuiChipsInput
+                      name='actors'
+                      label='Diễn viên'
+                      className='bg-white form-control'
+                      variant='outlined'
+                      placeholder='Enter Tag'
+                      fullWidth
+                      hideClearAll
+                      value={info?.actors}
+                      onAddChip={actor => handleAddActor(actor)}
+                      onDeleteChip={(actor, index) =>
+                        handleDeleteActor(actor, index)
+                      }
+                    />
+                  </FormControl>
+                </div>
+
+                <div className='col-12 col-lg-6'>
+                  <FormControl fullWidth className='mb-3'>
+                    <MuiChipsInput
+                      name='directors'
+                      label='Đạo diễn'
+                      className='bg-white form-control'
+                      variant='outlined'
+                      placeholder='Enter Tag'
+                      fullWidth
+                      hideClearAll
+                      value={info?.directors}
+                      onAddChip={director => handleAddDirector(director)}
+                      onDeleteChip={(director, index) =>
+                        handleDeleteDirector(director, index)
+                      }
+                    />
+                  </FormControl>
+                </div>
+
+                <div className='col-12 col-lg-6 mb-3'>
+                  <InputLabel>{'Image'}</InputLabel>
+                  <div className=''>
+                    <UploadWidget setPublicId={setPublicId} />
+                  </div>
+                  <div className='mt-3' style={{ width: '400px' }}>
+                    <AdvancedImage
+                      className=''
+                      style={{ maxWidth: '100%' }}
+                      cldImg={myImage}
+                      plugins={[responsive(), placeholder()]}
+                    />
+                  </div>
+                </div>
+
+                <div className='col-12 col-lg-6'>
+                  <FormControl fullWidth className='mb-3'>
+                    <TextField
+                      className='bg-white'
+                      type='number'
+                      name='publish'
+                      label='Khởi chiếu'
+                      value={info?.publish}
+                      onChange={onInfoChange}
+                    ></TextField>
+                  </FormControl>
+                </div>
+
+                <div className='col-12'>
+                  <FormControl fullWidth className='mb-3'>
+                    <TextField
+                      className='bg-white'
+                      multiline
+                      rows={4}
+                      name='review'
+                      label='Review'
+                      value={review}
+                      onChange={onInputChange}
+                    ></TextField>
+                  </FormControl>
+                </div>
+
+                <div className='col-12'>
+                  <Button variant='primary' type='submit'>
+                    {'Submit'}
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
-        </form>
-      </Container>
-    </div>
+          </form>
+        </Container>
+      </div>
+    </ThemeProvider>
   )
 }
 

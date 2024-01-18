@@ -33,11 +33,11 @@
   padding: 0;
   margin: 0;
 }
-.nav-menu a.active {
+.nav-item > a.active {
   color: white;
   border-bottom: 2px solid var(--main-color);
 }
-.nav-menu a {
+.nav-item > a {
   display: flex;
   height: 80px;
   margin-left: 45px;
@@ -51,7 +51,7 @@
   font-size: 17px;
   font-weight: 600;
 }
-.nav-menu a:hover {
+.nav-item > a:hover {
   color: white;
   border-bottom: 2px solid var(--main-color);
 }
@@ -59,6 +59,15 @@
 .menu-icon {
   color: #fff;
   display: none;
+}
+.dropdown-genre:hover .list-genre {
+  opacity: 1;
+  visibility: visible;
+}
+.list-genre {
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
 }
 
 @media screen and (max-width: 1200px) {

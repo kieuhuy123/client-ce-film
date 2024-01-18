@@ -16,7 +16,13 @@ import {
   Menu,
   MenuItem,
   ListItemIcon,
-  Divider
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemButton,
+  Box,
+  Grid
 } from '@mui/material'
 //
 import './Navbar.css'
@@ -25,6 +31,8 @@ import { useDispatch } from 'react-redux'
 import { logout } from '../redux/feature/authSlice'
 import toast from 'react-hot-toast'
 import movieType from '../lib/movieType.json'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import movieGenre from '../lib/movieGenre.json'
 
 const Header = () => {
   const dispatch = useDispatch()
@@ -68,13 +76,46 @@ const Header = () => {
               {'Phim mới'}
             </NavLink>
           </li>
-          {movieType.map(type => (
-            <li className='nav-item'>
+          {movieType.map((type, index) => (
+            <li className='nav-item' key={index}>
               <NavLink to={`type/${type.value}`} onClick={closeMobile}>
                 {type.label}
               </NavLink>
             </li>
           ))}
+          <li className='nav-item position-relative dropdown-genre'>
+            <a href='/#' onClick={closeMobile}>
+              {'Thể loại'}
+              <KeyboardArrowDownIcon />
+            </a>
+
+            <List
+              className='list-genre position-absolute'
+              sx={{
+                minWidth: '250px',
+
+                background: '#1f1f1f',
+                borderRadius: '4px'
+              }}
+            >
+              <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
+                {movieGenre.map(genre => (
+                  <Grid item md={6}>
+                    <ListItem disablePadding>
+                      <ListItemButton>
+                        <NavLink
+                          to={`/genre/${genre.value}`}
+                          className={'text-white'}
+                        >
+                          <ListItemText primary={genre.label} />
+                        </NavLink>
+                      </ListItemButton>
+                    </ListItem>
+                  </Grid>
+                ))}
+              </Grid>
+            </List>
+          </li>
 
           <li className='nav-item'>
             <Link to='search' onClick={closeMobile}>
@@ -122,6 +163,7 @@ const Header = () => {
               elevation: 0,
               sx: {
                 overflow: 'visible',
+                background: '#1f1f1f',
                 filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                 mt: 1.5,
                 '& .MuiAvatar-root': {
@@ -138,7 +180,6 @@ const Header = () => {
                   right: 14,
                   width: 10,
                   height: 10,
-                  bgcolor: 'background.paper',
                   transform: 'translateY(-50%) rotate(45deg)',
                   zIndex: 0
                 }

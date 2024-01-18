@@ -16,6 +16,7 @@ const Layout = () => {
       mode: 'dark'
     }
   })
+
   const ratingState = useSelector(state => state.rating)
 
   const { openDialog, movieIsRating } = ratingState
