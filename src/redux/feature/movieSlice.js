@@ -37,7 +37,7 @@ export const getMovieByAlias = createAsyncThunk(
 
 export const getMovieByType = createAsyncThunk(
   'movie/getMovieByType',
-  async ({ type, currentPage: page }, { rejectWithValue }) => {
+  async ({ type, getPage: page }, { rejectWithValue }) => {
     try {
       const response = await api.getMovieByType(type, page)
       return response.data
@@ -49,7 +49,8 @@ export const getMovieByType = createAsyncThunk(
 
 export const getMovieByGenre = createAsyncThunk(
   'movie/getMovieByGenre',
-  async ({ genre, currentPage: page }, { rejectWithValue }) => {
+  async ({ genre, getPage: page }, { rejectWithValue }) => {
+    // console.log('page', page)
     try {
       const response = await api.getMovieByGenre(genre, page)
       return response.data

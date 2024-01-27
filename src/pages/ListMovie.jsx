@@ -5,32 +5,39 @@ import useAuth from '../hooks/useAuth'
 import { getWatchlist } from '../redux/feature/watchlistSlice'
 import { getRateMovie } from '../redux/feature/ratingSlice'
 import FilmList from '../components/FilmList'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
+import { Pagination } from '@mui/material'
 
 const ListMovie = () => {
-  const params = useParams()
-  const type = params?.type
-  const genre = params?.genre
+  const { type, genre } = useParams()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const stateMovie = useSelector(state => state.movie)
   const { movies, loading, currentPage, numberOfPages, error } = stateMovie
   const { userId } = useAuth()
 
+  const getPage = searchParams.get('page') ? searchParams.get('page') : 1
+
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    if (type) {
-      dispatch(getMovieByType({ type, currentPage }))
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [type, currentPage])
+  const handlePageChange = (e, value) => {
+    setSearchParams(`page=${value}`)
+  }
 
   useEffect(() => {
-    if (genre) {
-      dispatch(getMovieByGenre({ genre, currentPage }))
+    if (getPage && type) {
+      dispatch(getMovieByType({ type, getPage }))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genre, currentPage])
+  }, [type, getPage])
+
+  useEffect(() => {
+    if (getPage && genre) {
+      dispatch(getMovieByGenre({ genre, getPage }))
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [genre, getPage])
 
   // Get watchlist
   useEffect(() => {
@@ -60,6 +67,18 @@ const ListMovie = () => {
             <div className='tabs-content'>
               <FilmList film={movies} />
             </div>
+            {numberOfPages > 1 ? (
+              <div className='d-flex justify-content-center  mb-4'>
+                <Pagination
+                  color='primary'
+                  count={numberOfPages}
+                  page={currentPage}
+                  onChange={handlePageChange}
+                />
+              </div>
+            ) : (
+              ''
+            )}
           </div>
         </div>
 

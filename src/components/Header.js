@@ -99,8 +99,8 @@ const Header = () => {
               }}
             >
               <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
-                {movieGenre.map(genre => (
-                  <Grid item md={6}>
+                {movieGenre.map((genre, index) => (
+                  <Grid item md={6} key={index}>
                     <ListItem disablePadding>
                       <ListItemButton>
                         <NavLink
@@ -189,7 +189,7 @@ const Header = () => {
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >
             {email ? (
-              <>
+              <div>
                 <MenuItem onClick={() => navigate('/addMovie')}>
                   <ListItemIcon>
                     <MdCreate style={{ fontSize: '20px' }} />
@@ -209,7 +209,7 @@ const Header = () => {
                   </ListItemIcon>
                   {'Logout'}
                 </MenuItem>
-              </>
+              </div>
             ) : (
               <MenuItem onClick={() => navigate('/login')}>
                 <ListItemIcon>

@@ -2,6 +2,8 @@ import React, { Suspense, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getMovies, setCurrentPage } from '../redux/feature/movieSlice'
 import FilmList from '../components/FilmList'
+import { useSearchParams } from 'react-router-dom'
+
 // Css
 import './Home.css'
 import useAuth from '../hooks/useAuth'
@@ -11,20 +13,27 @@ import { getRateMovie } from '../redux/feature/ratingSlice'
 import Pagination from '@mui/material/Pagination'
 
 const Home = () => {
-  const stateMovie = useSelector(state => state.movie)
-  const { movies, loading, currentPage, numberOfPages, error } = stateMovie
+  const dispatch = useDispatch()
   const { userId } = useAuth()
 
-  const dispatch = useDispatch()
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const stateMovie = useSelector(state => state.movie)
+  const { movies, loading, currentPage, numberOfPages, error } = stateMovie
+
+  const getPage = searchParams.get('page') ? searchParams.get('page') : 1
 
   const handlePageChange = (e, value) => {
-    dispatch(setCurrentPage(value))
+    setSearchParams(`page=${value}`)
   }
+
   useEffect(() => {
-    dispatch(getMovies(currentPage))
+    if (getPage) {
+      dispatch(getMovies(getPage))
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage])
+  }, [getPage])
 
   // Get watchlist
   useEffect(() => {
@@ -57,14 +66,18 @@ const Home = () => {
                 <FilmList film={movies} />
               </div>
             </div>
-            <div className='d-flex justify-content-center  mb-4'>
-              <Pagination
-                color='primary'
-                count={numberOfPages}
-                page={currentPage}
-                onChange={handlePageChange}
-              />
-            </div>
+            {numberOfPages > 1 ? (
+              <div className='d-flex justify-content-center  mb-4'>
+                <Pagination
+                  color='primary'
+                  count={numberOfPages}
+                  page={currentPage}
+                  onChange={handlePageChange}
+                />
+              </div>
+            ) : (
+              ''
+            )}
           </div>
 
           <div className='col-12 col-xl-3 sidebar'>
