@@ -19,6 +19,7 @@ import { ROLES } from './lib/roles'
 import Watchlist from './pages/Watchlist'
 import PlayMovie from './pages/PlayMovie'
 import ListMovie from './pages/ListMovie'
+import SearchPage from './pages/Search'
 
 function App () {
   const dispatch = useDispatch()
@@ -39,6 +40,7 @@ function App () {
             <Route path='/' element={<Home />}></Route>
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
+            <Route path='/search' element={<SearchPage />} />
             <Route path='/review/:alias' element={<ReviewMoview />} />
             <Route path='/play/:alias' element={<PlayMovie />}></Route>
             <Route path='/type/:type' element={<ListMovie />}></Route>

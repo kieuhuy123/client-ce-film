@@ -1,4 +1,4 @@
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate, useSearchParams } from 'react-router-dom'
 import { Navbar, Container } from 'react-bootstrap'
 import { FaBars, FaTimes } from 'react-icons/fa'
 import { useState } from 'react'
@@ -21,8 +21,9 @@ import {
   ListItem,
   ListItemText,
   ListItemButton,
-  Box,
-  Grid
+  Grid,
+  TextField,
+  FormControl
 } from '@mui/material'
 //
 import './Navbar.css'
@@ -33,18 +34,22 @@ import toast from 'react-hot-toast'
 import movieType from '../lib/movieType.json'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import movieGenre from '../lib/movieGenre.json'
+import { IoIosSearch } from 'react-icons/io'
 
 const Header = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const querySearch = searchParams.get('q')
   const [open, setClick] = useState(false)
+
   const { email } = useAuth()
 
-  const closeMobile = () => setClick(!open)
-
   const [anchorEl, setAnchorEl] = useState(null)
-
+  const [keyword, setKeyword] = useState('')
   const openAnchor = Boolean(anchorEl)
+
+  const closeMobile = () => setClick(!open)
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -55,6 +60,16 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(logout({ navigate, toast }))
+  }
+  const handleChangeKeyword = e => {
+    setKeyword(e.target.value)
+  }
+  const handleSearch = e => {
+    e.preventDefault()
+
+    navigate(`/search/?q=${keyword}`)
+
+    // dispatch(getMovieByKeyword(keyword))
   }
 
   return (
@@ -71,11 +86,11 @@ const Header = () => {
           </div> */}
 
         <ul className={open ? 'nav-menu active me-auto' : 'nav-menu me-auto'}>
-          <li className='nav-item'>
+          {/* <li className='nav-item'>
             <NavLink to='/' onClick={closeMobile}>
               {'Phim mới'}
             </NavLink>
-          </li>
+          </li> */}
           {movieType.map((type, index) => (
             <li className='nav-item' key={index}>
               <NavLink to={`type/${type.value}`} onClick={closeMobile}>
@@ -117,13 +132,34 @@ const Header = () => {
             </List>
           </li>
 
-          <li className='nav-item'>
-            <Link to='search' onClick={closeMobile}>
-              <span style={{ display: 'flex' }}>
-                <BsSearch style={{ fontSize: '20px', marginRight: '5px' }} />{' '}
+          <li className='nav-item ps-3'>
+            {/* <a href='/#' onClick={closeMobile}> */}
+            {/* <span style={{ display: 'flex' }}>
+                <BsSearch style={{ fontSize: '20px', marginRight: '5px' }} />
                 {'Tìm kiếm'}
-              </span>
-            </Link>
+              </span> */}
+            <form onSubmit={handleSearch}>
+              <FormControl className='d-flex justify-content-center align-items-center position-relative'>
+                <TextField
+                  name='keyword'
+                  value={keyword}
+                  onChange={handleChangeKeyword}
+                  hiddenLabel
+                  placeholder='Tìm kiếm'
+                  variant='outlined'
+                  sx={{ minWidth: '350px' }}
+                />
+                <IconButton
+                  aria-label='delete'
+                  className='position-absolute end-0'
+                  onClick={handleSearch}
+                >
+                  <IoIosSearch fontSize={32} />
+                </IconButton>
+              </FormControl>
+            </form>
+
+            {/* </a> */}
           </li>
         </ul>
 
