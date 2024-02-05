@@ -50,7 +50,6 @@ export const getMovieByType = createAsyncThunk(
 export const getMovieByGenre = createAsyncThunk(
   'movie/getMovieByGenre',
   async ({ genre, getPage: page }, { rejectWithValue }) => {
-    // console.log('page', page)
     try {
       const response = await api.getMovieByGenre(genre, page)
       return response.data
@@ -112,6 +111,19 @@ export const getRelatedMovies = createAsyncThunk(
     try {
       const relatedMovieData = { movieId, genre }
       const response = await api.getRelatedMovies(relatedMovieData)
+
+      return response.data
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
+
+export const getMovieByKeyword = createAsyncThunk(
+  'movie/getMovieByKeyword',
+  async (keyword, { rejectWithValue }) => {
+    try {
+      const response = await api.getMovieByKeyword(keyword)
 
       return response.data
     } catch (error) {
@@ -217,6 +229,17 @@ const movieSlice = createSlice({
       state.relatedMovies = action.payload.metadata
     },
     [getRelatedMovies.rejected]: (state, action) => {
+      state.loading = false
+      state.error = action.payload.message
+    },
+    [getMovieByKeyword.pending]: (state, action) => {
+      state.loading = true
+    },
+    [getMovieByKeyword.fulfilled]: (state, action) => {
+      state.loading = false
+      state.movies = action.payload.metadata
+    },
+    [getMovieByKeyword.rejected]: (state, action) => {
       state.loading = false
       state.error = action.payload.message
     }

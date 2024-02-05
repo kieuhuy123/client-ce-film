@@ -106,6 +106,8 @@ export const deleteMovie = movieId => API.delete(`/v1/api/movie/${movieId}`)
 export const getRelatedMovies = relatedMovieData =>
   API.post(`/v1/api/movie/related`, relatedMovieData)
 
+export const getMovieByKeyword = keyword =>
+  API.post('/v1/api/movie/search', { keyword })
 // Watchlist
 export const getWatchlist = userId => API.get(`/watchlist/?userId=${userId}`)
 
