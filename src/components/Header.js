@@ -117,13 +117,12 @@ const Header = () => {
                 {movieGenre.map((genre, index) => (
                   <Grid item md={6} key={index}>
                     <ListItem disablePadding>
-                      <ListItemButton>
-                        <NavLink
-                          to={`/genre/${genre.value}`}
-                          className={'text-white'}
-                        >
-                          <ListItemText primary={genre.label} />
-                        </NavLink>
+                      <ListItemButton
+                        onClick={() => {
+                          navigate(`/genre/${genre.value}`)
+                        }}
+                      >
+                        <ListItemText primary={genre.label} />
                       </ListItemButton>
                     </ListItem>
                   </Grid>

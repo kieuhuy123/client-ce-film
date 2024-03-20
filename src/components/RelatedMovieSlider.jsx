@@ -9,7 +9,7 @@ import 'swiper/css/navigation'
 
 const RelatedMovieSlider = ({ relatedMovies }) => {
   return (
-    <div>
+    <div key={relatedMovies.id}>
       <Swiper
         slidesPerView={4}
         spaceBetween={30}
@@ -17,8 +17,8 @@ const RelatedMovieSlider = ({ relatedMovies }) => {
         modules={[Navigation]}
         className='mySwiper p-3'
       >
-        {relatedMovies.map(movie => (
-          <SwiperSlide>
+        {relatedMovies.map((movie, index) => (
+          <SwiperSlide key={index}>
             <FilmItem film={movie} />
           </SwiperSlide>
         ))}
