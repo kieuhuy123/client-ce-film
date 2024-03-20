@@ -12,16 +12,24 @@ import {
 import { getMovieByAlias, getRelatedMovies } from '../redux/feature/movieSlice'
 
 import RelatedMovieSlider from '../components/RelatedMovieSlider'
+import CommentForm from '../components/CommentForm'
+import CommentList from '../components/CommentList'
+import { getComments } from '../redux/feature/commentSlice'
+import useAuth from '../hooks/useAuth'
+import { Skeleton } from '@mui/material'
 
 const PlayMovie = () => {
   const dispatch = useDispatch()
   const params = useParams()
   const alias = params.alias
 
-  const { movie, relatedMovies } = useSelector(state => ({
-    ...state.movie
-  }))
+  const stateMovie = useSelector(state => state.movie)
+  const { movie, relatedMovies } = stateMovie
 
+  const stateComment = useSelector(state => state.comment)
+  const { comments, loading, loadingBtn } = stateComment
+
+  const { email, userId } = useAuth()
   useEffect(() => {
     if (alias) {
       dispatch(getMovieByAlias(alias))
@@ -33,6 +41,16 @@ const PlayMovie = () => {
       dispatch(getRelatedMovies({ movieId: movie._id, genre: movie.genre }))
     }
   }, [alias, dispatch, movie?.genre, movie._id])
+
+  useEffect(() => {
+    if (movie?._id) {
+      dispatch(
+        getComments({
+          movieId: movie._id
+        })
+      )
+    }
+  }, [movie])
 
   return (
     <div className='container'>
@@ -55,6 +73,37 @@ const PlayMovie = () => {
           </div>
           <div className='comment mt-3'>
             <h3 className='text-white'>{'Bình luận về phim'}</h3>
+
+            <CommentForm
+              movieId={movie._id}
+              userId={userId}
+              userEmail={email}
+              loading={loading}
+            />
+
+            {loading ? (
+              Array(3)
+                .fill(1)
+                .map(item => (
+                  <>
+                    <Skeleton
+                      className='mt-4'
+                      variant='rectangular'
+                      height={120}
+                    />
+                    <Skeleton />
+                    <Skeleton width='60%' />
+                  </>
+                ))
+            ) : (
+              <CommentList
+                comments={comments}
+                movieId={movie._id}
+                userId={userId}
+                userEmail={email}
+                loadingBtn={loadingBtn}
+              />
+            )}
           </div>
 
           <div className='related-movie'>
