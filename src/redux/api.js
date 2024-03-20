@@ -17,7 +17,7 @@ const API = axios.create({
   baseURL: `${devEnv ? REACT_APP_DEV_API : REACT_APP_PROD_API}`,
   withCredentials: true
 })
-
+// Handle request API
 API.interceptors.request.use(req => {
   if (localStorage.getItem('userId')) {
     req.headers[HEADER.CLIENT_ID] = ` ${
@@ -36,20 +36,28 @@ API.interceptors.request.use(req => {
   return req
 })
 
+// Handle response API
 API.interceptors.response.use(
   async res => {
     return res
   },
+
   async error => {
     const config = error.config
+    console.log('error', error)
 
-    if (config.url.includes('/v1/api/user/login')) {
+    const allowedRoute = ['/v1/api/user/login']
+    // if (config.url.includes('/v1/api/user/login')) {
+    //   // Nhung route khong can check Token
+    //   return Promise.reject(error)
+    // }
+
+    if (allowedRoute.includes(config.url)) {
       // Nhung route khong can check Token
-      return error
+      return Promise.reject(error)
     }
 
     const { code, message } = error.response.data
-    console.log('message error', message)
 
     if (message && message === 'accessToken expired' && code && code === 401) {
       console.log('TH het han token')
@@ -80,13 +88,13 @@ API.interceptors.response.use(
   }
 )
 
-// Auth
+// API Auth
 export const login = formData => API.post('/v1/api/user/login', formData)
 export const register = formData => API.post('/v1/api/user/register', formData)
 export const logout = () => API.post('/v1/api/user/logout')
 export const refreshToken = () => API.post('/v1/api/user/refreshToken')
 
-// Movie
+// API Movie
 export const getMovies = page => API.get(`/v1/api/movie?page=${page}`)
 
 export const getMovieByAlias = alias => API.get(`/v1/api/movie/${alias}`)
@@ -108,7 +116,8 @@ export const getRelatedMovies = relatedMovieData =>
 
 export const getMovieByKeyword = keyword =>
   API.post('/v1/api/movie/search', { keyword })
-// Watchlist
+
+// API Watchlist
 export const getWatchlist = userId => API.get(`/watchlist/?userId=${userId}`)
 
 export const addToWatchlist = (userId, movieId) =>
@@ -119,7 +128,7 @@ export const removeFromWatchlist = (userId, movieId, alias) =>
     data: { userId, movieId, alias }
   })
 
-// Rate
+// API Rate
 export const rateMovie = (userId, movieId, rateValue) =>
   API.post(`/rate`, { userId, movieId, rateValue })
 
@@ -128,6 +137,34 @@ export const updateRatingMovie = (userId, movieId, rateValue, oldRateValue) =>
 
 export const getRatedMovie = userId => API.get(`/rate/${userId}`)
 
+// API Comments
+export const getComments = movieId =>
+  API.get(`/v1/api/comment?movieId=${movieId}`)
+
+export const getCommentsByParentId = (movieId, parentCommentId) =>
+  API.get(
+    `/v1/api/comment?movieId=${movieId}&parentCommentId=${parentCommentId}`
+  )
+
+export const createComment = (
+  movieId,
+  userId,
+  userEmail,
+  content,
+  parentCommentId
+) =>
+  API.post(`/v1/api/comment`, {
+    movieId,
+    userId,
+    userEmail,
+    content,
+    parentCommentId
+  })
+
+export const deleteComment = (commentId, movieId) =>
+  API.delete(`/v1/api/comment?commentId=${commentId}&movieId=${movieId}`)
+
+//
 const handleRefreshToken = async () => {
   try {
     const response = await refreshToken()

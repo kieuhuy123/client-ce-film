@@ -16,6 +16,7 @@ export const login = createAsyncThunk(
       navigate('/')
       return response.data
     } catch (err) {
+      console.log('error', err)
       toast.error(err.response.data.message)
       return rejectWithValue(err.response.data)
     }
@@ -47,7 +48,6 @@ export const logout = createAsyncThunk(
       window.location.reload()
       return response.data
     } catch (err) {
-      console.log('err', err.response)
       toast.error(err.response.data.message)
       return rejectWithValue(err.response.data)
     }
@@ -67,6 +67,7 @@ const authSlice = createSlice({
       state.loading = true
     },
     [login.fulfilled]: (state, action) => {
+      console.log('login success')
       state.loading = false
       localStorage.setItem(
         'profile',
@@ -76,6 +77,7 @@ const authSlice = createSlice({
       state.token = action.payload.metadata.tokens.accessToken
     },
     [login.rejected]: (state, action) => {
+      console.log('login failed')
       state.loading = false
       state.error = action.payload.message
     },
