@@ -24,7 +24,7 @@ const FilmItem = memo(function ({ film, type }) {
 
   const ratedMovie =
     rated.length > 0
-      ? rated.find(item => item.rating_movie_id === film._id)
+      ? rated.find(item => item.rating_movie._id === film._id)
       : []
 
   const cld = new Cloudinary({

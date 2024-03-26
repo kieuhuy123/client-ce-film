@@ -42,12 +42,11 @@ const RatingDialog = ({ film, open, handleClose }) => {
   const { rated } = ratingState
   const ratedMovie =
     rated.length > 0
-      ? rated.find(item => item.rating_movie_id === film._id)
+      ? rated.find(item => item.rating_movie._id === film._id)
       : ''
-  console.log('rated', rated)
+
   const handleRate = async () => {
     if (ratedMovie) {
-      console.log('update ne')
       dispatch(
         updateRatingMovie({
           userId: userId,
@@ -68,7 +67,7 @@ const RatingDialog = ({ film, open, handleClose }) => {
   }
   useEffect(() => {
     if (ratedMovie) {
-      setRating(ratedMovie.value)
+      setRating(ratedMovie.rating_value)
     } else {
       setRating(null)
     }

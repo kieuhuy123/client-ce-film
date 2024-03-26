@@ -7,7 +7,7 @@ import { ImFilm } from 'react-icons/im'
 import { MdAddToPhotos } from 'react-icons/md'
 import { MdCreate } from 'react-icons/md'
 import { LuLogOut } from 'react-icons/lu'
-
+import { FaStar } from 'react-icons/fa'
 import {
   Avatar,
   Button,
@@ -39,8 +39,8 @@ import { IoIosSearch } from 'react-icons/io'
 const Header = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [searchParams, setSearchParams] = useSearchParams()
-  const querySearch = searchParams.get('q')
+  // const [searchParams, setSearchParams] = useSearchParams()
+  // const querySearch = searchParams.get('q')
   const [open, setClick] = useState(false)
 
   const { email } = useAuth()
@@ -231,11 +231,17 @@ const Header = () => {
                   </ListItemIcon>
                   {'Create movie'}
                 </MenuItem>
-                <MenuItem onClick={() => navigate('/Watchlist')}>
+                <MenuItem onClick={() => navigate('/watchlist')}>
                   <ListItemIcon>
                     <MdAddToPhotos style={{ fontSize: '20px' }} />
                   </ListItemIcon>
-                  {'Watch list'}
+                  {'Your Watchlist'}
+                </MenuItem>
+                <MenuItem onClick={() => navigate('/ratings')}>
+                  <ListItemIcon>
+                    <FaStar style={{ fontSize: '20px' }} />
+                  </ListItemIcon>
+                  {'Your ratings'}
                 </MenuItem>
                 <Divider />
                 <MenuItem onClick={handleLogout}>
