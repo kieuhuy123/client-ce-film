@@ -130,7 +130,7 @@ export const removeFromWatchlist = (userId, movieId, alias) =>
 
 // API Rate
 export const rateMovie = (userId, movieId, ratingValue) =>
-  API.post(`/v1/api/rateMovie`, { userId, movieId, ratingValue })
+  API.post(`/v1/api/ratingMovie`, { userId, movieId, ratingValue })
 
 export const updateRatingMovie = (
   userId,
@@ -138,7 +138,7 @@ export const updateRatingMovie = (
   ratingValue,
   oldRatingValue
 ) =>
-  API.patch(`/v1/api/rateMovie`, {
+  API.patch(`/v1/api/ratingMovie`, {
     userId,
     movieId,
     ratingValue,
@@ -146,7 +146,7 @@ export const updateRatingMovie = (
   })
 
 export const getRatedMovie = userId =>
-  API.get(`/v1/api/rateMovie?userId=${userId}`)
+  API.get(`/v1/api/ratingMovie?userId=${userId}`)
 
 // API Comments
 export const getComments = movieId =>

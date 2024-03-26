@@ -50,7 +50,6 @@ export const getRateMovie = createAsyncThunk(
       const response = await api.getRatedMovie(userId)
       return response.data
     } catch (error) {
-      console.log('error', error)
       return rejectWithValue(error.response.data)
     }
   }
@@ -69,7 +68,7 @@ const ratingSlice = createSlice({
   },
   extraReducers: {
     [rateMovie.pending]: (state, action) => {
-      state.loading = true
+      state.loading = false
     },
     [rateMovie.fulfilled]: (state, action) => {
       state.loading = false
@@ -91,10 +90,10 @@ const ratingSlice = createSlice({
       state.error = action.payload.message
     },
     [updateRatingMovie.pending]: (state, action) => {
-      state.loading = true
+      // state.loading = true
     },
     [updateRatingMovie.fulfilled]: (state, action) => {
-      state.loading = false
+      // state.loading = false
 
       const {
         arg: { movieId }
@@ -102,14 +101,14 @@ const ratingSlice = createSlice({
 
       if (movieId) {
         state.rated = state.rated.filter(
-          item => item.rating_movie_id !== movieId
+          item => item.rating_movie._id !== movieId
         )
       }
 
       state.rated = [{ ...action.payload.metadata }, ...state.rated]
     },
     [updateRatingMovie.rejected]: (state, action) => {
-      state.loading = false
+      // state.loading = false
       state.error = action.payload.message
     }
   }

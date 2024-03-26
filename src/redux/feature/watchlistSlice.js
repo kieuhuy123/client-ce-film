@@ -60,7 +60,6 @@ const watchlistSlice = createSlice({
         action.payload?.watchlist_movies ?? initialState.watchlist
     },
     [getWatchlist.rejected]: (state, action) => {
-      state.loading = false
       state.error = action.payload.message
     },
     [addToWatchlist.pending]: (state, action) => {
@@ -71,18 +70,15 @@ const watchlistSlice = createSlice({
       state.addInLoading = { inLoading: true, movieId }
     },
     [addToWatchlist.fulfilled]: (state, action) => {
-      state.loading = false
       state.watchlist =
         action.payload?.data.watchlist_movies ?? initialState.watchlist
       state.addInLoading = initialState.addInLoading
     },
     [addToWatchlist.rejected]: (state, action) => {
-      state.loading = false
       state.error = action.payload.message
       state.addInLoading = initialState.addInLoading
     },
     [removeFromWatchlist.pending]: (state, action) => {
-      state.loading = true
       const {
         arg: { movieId }
       } = action.meta
@@ -90,7 +86,6 @@ const watchlistSlice = createSlice({
       state.addInLoading = { inLoading: true, movieId }
     },
     [removeFromWatchlist.fulfilled]: (state, action) => {
-      state.loading = false
       const {
         arg: { movieId }
       } = action.meta
@@ -101,7 +96,6 @@ const watchlistSlice = createSlice({
       state.addInLoading = initialState.addInLoading
     },
     [removeFromWatchlist.rejected]: (state, action) => {
-      state.loading = false
       state.error = action.payload.message
       state.addInLoading = initialState.addInLoading
     }
