@@ -57,7 +57,7 @@ const watchlistSlice = createSlice({
     [getWatchlist.fulfilled]: (state, action) => {
       state.loading = false
       state.watchlist =
-        action.payload?.watchlist_movies ?? initialState.watchlist
+        action.payload?.metadata?.watchlist_movies ?? initialState.watchlist
     },
     [getWatchlist.rejected]: (state, action) => {
       state.error = action.payload.message
@@ -71,7 +71,7 @@ const watchlistSlice = createSlice({
     },
     [addToWatchlist.fulfilled]: (state, action) => {
       state.watchlist =
-        action.payload?.data.watchlist_movies ?? initialState.watchlist
+        action.payload?.metadata?.watchlist_movies ?? initialState.watchlist
       state.addInLoading = initialState.addInLoading
     },
     [addToWatchlist.rejected]: (state, action) => {

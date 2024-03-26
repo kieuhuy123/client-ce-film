@@ -20,6 +20,7 @@ import Watchlist from './pages/Watchlist'
 import PlayMovie from './pages/PlayMovie'
 import ListMovie from './pages/ListMovie'
 import SearchPage from './pages/Search'
+import UserRatings from './pages/UserRatings'
 
 function App () {
   const dispatch = useDispatch()
@@ -58,6 +59,14 @@ function App () {
               element={
                 <PrivateRoute allowedRoles={[ROLES.Admin, ROLES.User]}>
                   <Watchlist />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path='/ratings'
+              element={
+                <PrivateRoute allowedRoles={[ROLES.Admin, ROLES.User]}>
+                  <UserRatings />
                 </PrivateRoute>
               }
             />
