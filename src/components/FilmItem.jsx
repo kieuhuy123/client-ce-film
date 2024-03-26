@@ -22,7 +22,10 @@ const FilmItem = memo(function ({ film, type }) {
 
   const rated = useSelector(state => state.rating.rated)
 
-  const ratedMovie = rated.find(item => item.movieId === film._id)
+  const ratedMovie =
+    rated.length > 0
+      ? rated.find(item => item.rating_movie_id === film._id)
+      : []
 
   const cld = new Cloudinary({
     cloud: {
@@ -57,8 +60,8 @@ const FilmItem = memo(function ({ film, type }) {
       </Link>
 
       <div className='item-number'>
-        {film?.rateCount && film?.rateValue
-          ? avgRate(film?.rateCount, film?.rateValue)
+        {film?.rating_count && film?.total_rating_value
+          ? avgRate(film?.rating_count, film?.total_rating_value)
           : defaultRate}
       </div>
 
@@ -66,8 +69,8 @@ const FilmItem = memo(function ({ film, type }) {
         <IconButton className='text-white me-3' size='small'>
           <FaStar color='#f5c518' />
           <span className='ms-2 '>
-            {film?.rateCount && film?.rateValue
-              ? avgRate(film?.rateCount, film?.rateValue)
+            {film?.rating_count && film?.total_rating_value
+              ? avgRate(film?.rating_count, film?.total_rating_value)
               : defaultRate}
           </span>
         </IconButton>
@@ -80,7 +83,7 @@ const FilmItem = memo(function ({ film, type }) {
         >
           <FaRegStar />
           <span className='ms-2 text-white'>
-            {ratedMovie ? ratedMovie.value : ''}
+            {ratedMovie ? ratedMovie.rating_value : ''}
           </span>
         </IconButton>
       </div>

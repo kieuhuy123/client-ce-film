@@ -11,10 +11,11 @@ const initialState = {
 
 export const rateMovie = createAsyncThunk(
   'rating/rateMovie',
-  async ({ userId, movieId, rateValue }, { rejectWithValue }) => {
+  async ({ userId, movieId, ratingValue }, { rejectWithValue }) => {
     try {
-      const response = await api.rateMovie(userId, movieId, rateValue)
+      const response = await api.rateMovie(userId, movieId, ratingValue)
       setOpen(false)
+
       return response.data
     } catch (error) {
       return rejectWithValue(error.response.data)
@@ -24,13 +25,16 @@ export const rateMovie = createAsyncThunk(
 
 export const updateRatingMovie = createAsyncThunk(
   'rating/updateRating',
-  async ({ userId, movieId, rateValue, oldRateValue }, { rejectWithValue }) => {
+  async (
+    { userId, movieId, ratingValue, oldRatingValue },
+    { rejectWithValue }
+  ) => {
     try {
       const response = await api.updateRatingMovie(
         userId,
         movieId,
-        rateValue,
-        oldRateValue
+        ratingValue,
+        oldRatingValue
       )
       setOpen(false)
       return response.data
@@ -46,6 +50,7 @@ export const getRateMovie = createAsyncThunk(
       const response = await api.getRatedMovie(userId)
       return response.data
     } catch (error) {
+      console.log('error', error)
       return rejectWithValue(error.response.data)
     }
   }
@@ -68,7 +73,7 @@ const ratingSlice = createSlice({
     },
     [rateMovie.fulfilled]: (state, action) => {
       state.loading = false
-      state.rated = [...state.rated, { ...action.payload }]
+      state.rated = [...state.rated, { ...action.payload.metadata }]
     },
     [rateMovie.rejected]: (state, action) => {
       state.loading = false
@@ -79,7 +84,7 @@ const ratingSlice = createSlice({
     },
     [getRateMovie.fulfilled]: (state, action) => {
       state.loading = false
-      state.rated = action.payload
+      state.rated = action.payload.metadata
     },
     [getRateMovie.rejected]: (state, action) => {
       state.loading = false
@@ -96,10 +101,12 @@ const ratingSlice = createSlice({
       } = action.meta
 
       if (movieId) {
-        state.rated = state.rated.filter(item => item.movieId !== movieId)
+        state.rated = state.rated.filter(
+          item => item.rating_movie_id !== movieId
+        )
       }
 
-      state.rated = [...state.rated, { ...action.payload }]
+      state.rated = [{ ...action.payload.metadata }, ...state.rated]
     },
     [updateRatingMovie.rejected]: (state, action) => {
       state.loading = false
