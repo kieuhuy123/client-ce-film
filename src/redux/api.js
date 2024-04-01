@@ -119,13 +119,13 @@ export const getMovieByKeyword = keyword =>
 
 // API Watchlist
 export const getWatchlist = userId =>
-  API.get(`/v1/api/watchlist?userId=${userId}`)
+  API.get(`/v1/api/watchlistMovie?userId=${userId}`)
 
 export const addToWatchlist = (userId, movieId) =>
-  API.post(`/v1/api/watchlist`, { userId, movieId })
+  API.post(`/v1/api/watchlistMovie`, { userId, movieId })
 
 export const removeFromWatchlist = (userId, movieId, alias) =>
-  API.delete(`/v1/api/watchlist`, {
+  API.delete(`/v1/api/watchlistMovie`, {
     data: { userId, movieId, alias }
   })
 
