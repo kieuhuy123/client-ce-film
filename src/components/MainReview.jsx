@@ -19,10 +19,7 @@ const MainReview = () => {
           </div>
           <div className='trailer' id='trailer'>
             <h2 className='trailer-title'>Official trailer:</h2>
-            <div
-              className='position-relative'
-              style={{ paddingTop: '56.20608899297424%' }}
-            >
+            <div className='position-relative' style={{ paddingTop: '56.25%' }}>
               <iframe
                 className='position-absolute top-0 left-0 w-100 h-100'
                 src={movie?.trailer}

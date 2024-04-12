@@ -1,14 +1,9 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import {
-  Player,
-  BigPlayButton,
-  LoadingSpinner,
-  ControlBar,
-  ReplayControl,
-  ForwardControl
-} from 'video-react'
+
+import ReactPlayer from 'react-player/lazy'
+
 import { getMovieByAlias, getRelatedMovies } from '../redux/feature/movieSlice'
 
 import RelatedMovieSlider from '../components/RelatedMovieSlider'
@@ -17,6 +12,8 @@ import CommentList from '../components/CommentList'
 import { getComments } from '../redux/feature/commentSlice'
 import useAuth from '../hooks/useAuth'
 import { Skeleton } from '@mui/material'
+// css
+import './PlayMovie.css'
 
 const PlayMovie = () => {
   const dispatch = useDispatch()
@@ -56,18 +53,16 @@ const PlayMovie = () => {
     <div className='container'>
       <div className='row'>
         <div className='col-12'>
-          <Player
-            playsInline
-            poster={movie?.image}
-            src='https://media.w3.org/2010/05/sintel/trailer_hd.mp4'
-          >
-            <BigPlayButton position='center' />
-            <LoadingSpinner />
-            <ControlBar autoHide={false}>
-              <ReplayControl seconds={10} order={2.2} />
-              <ForwardControl seconds={10} order={3.2} />
-            </ControlBar>
-          </Player>
+          <div className='position-relative player-wrapper'>
+            <ReactPlayer
+              className='position-absolute top-0 left-0 react-player'
+              controls={true}
+              url={'https://media.w3.org/2010/05/sintel/trailer_hd.mp4'}
+              width='100%'
+              height='100%'
+            />
+          </div>
+
           <div className=''>
             <h2>{movie?.title}</h2>
           </div>
@@ -84,8 +79,8 @@ const PlayMovie = () => {
             {loading ? (
               Array(3)
                 .fill(1)
-                .map(item => (
-                  <>
+                .map((item, index) => (
+                  <div key={index}>
                     <Skeleton
                       className='mt-4'
                       variant='rectangular'
@@ -93,7 +88,7 @@ const PlayMovie = () => {
                     />
                     <Skeleton />
                     <Skeleton width='60%' />
-                  </>
+                  </div>
                 ))
             ) : (
               <CommentList

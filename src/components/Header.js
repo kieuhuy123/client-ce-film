@@ -1,7 +1,7 @@
 import { Link, NavLink, useNavigate, useSearchParams } from 'react-router-dom'
 import { Navbar, Container } from 'react-bootstrap'
 import { FaBars, FaTimes } from 'react-icons/fa'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BsSearch } from 'react-icons/bs'
 import { ImFilm } from 'react-icons/im'
 import { MdAddToPhotos } from 'react-icons/md'
@@ -23,7 +23,10 @@ import {
   ListItemButton,
   Grid,
   TextField,
-  FormControl
+  FormControl,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails
 } from '@mui/material'
 //
 import './Navbar.css'
@@ -41,7 +44,7 @@ const Header = () => {
   const navigate = useNavigate()
   // const [searchParams, setSearchParams] = useSearchParams()
   // const querySearch = searchParams.get('q')
-  const [open, setClick] = useState(false)
+  const [open, setOpen] = useState(false)
 
   const { email } = useAuth()
 
@@ -49,7 +52,16 @@ const Header = () => {
   const [keyword, setKeyword] = useState('')
   const openAnchor = Boolean(anchorEl)
 
-  const closeMobile = () => setClick(!open)
+  const openMenuMobile = () => {
+    setOpen(true)
+    body.classList.add('overflow-hidden')
+  }
+  const closeMobile = () => {
+    body.classList.remove('overflow-hidden')
+
+    setOpen(false)
+  }
+  const body = document.querySelector('.App')
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -66,11 +78,20 @@ const Header = () => {
   }
   const handleSearch = e => {
     e.preventDefault()
-
+    closeMobile()
     navigate(`/search/?q=${keyword}`)
 
     // dispatch(getMovieByKeyword(keyword))
   }
+
+  // useEffect(() => {
+  //   if ((body, open)) {
+  //     body.classList.add('overflow-hidden')
+  //   }
+  //   if ((body, !open)) {
+  //     body.classList.remove('overflow-hidden')
+  //   }
+  // }, [body, open])
 
   return (
     <Navbar>
@@ -85,53 +106,102 @@ const Header = () => {
             {click ? <FaTimes /> : <FaBars />}
           </div> */}
 
-        <ul className={open ? 'nav-menu active me-auto' : 'nav-menu me-auto'}>
+        <ul
+          className={
+            open
+              ? 'nav-menu active me-auto overflow-scroll'
+              : 'nav-menu me-auto'
+          }
+        >
           {/* <li className='nav-item'>
             <NavLink to='/' onClick={closeMobile}>
               {'Phim mới'}
             </NavLink>
           </li> */}
           {movieType.map((type, index) => (
-            <li className='nav-item' key={index}>
+            <li className='nav-item order-2' key={index}>
               <NavLink to={`type/${type.value}`} onClick={closeMobile}>
                 {type.label}
               </NavLink>
             </li>
           ))}
-          <li className='nav-item position-relative dropdown-genre'>
-            <a href='/#' onClick={closeMobile}>
-              {'Thể loại'}
-              <KeyboardArrowDownIcon />
-            </a>
-
-            <List
-              className='list-genre position-absolute'
-              sx={{
-                minWidth: '250px',
-
-                background: '#1f1f1f',
-                borderRadius: '4px'
-              }}
-            >
-              <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
-                {movieGenre.map((genre, index) => (
-                  <Grid item md={6} key={index}>
-                    <ListItem disablePadding>
-                      <ListItemButton
-                        onClick={() => {
-                          navigate(`/genre/${genre.value}`)
-                        }}
-                      >
-                        <ListItemText primary={genre.label} />
-                      </ListItemButton>
-                    </ListItem>
+          {open ? (
+            <Accordion className='order-2'>
+              <AccordionSummary
+                expandIcon={<KeyboardArrowDownIcon />}
+                aria-controls='panel3-content'
+                id='panel3-header'
+                sx={{
+                  '& .MuiAccordionSummary-content': {
+                    justifyContent: 'center',
+                    fontWeight: '600;',
+                    fontSize: '17px'
+                  },
+                  background: '#1c2237',
+                  color: '#899ead'
+                }}
+              >
+                {'Thể loại'}
+              </AccordionSummary>
+              <AccordionDetails sx={{ background: '#1c2237' }}>
+                <List>
+                  <Grid container spacing={2}>
+                    {movieGenre.map((genre, index) => (
+                      <Grid item xs={6} key={index}>
+                        <ListItem disablePadding>
+                          <ListItemButton
+                            onClick={() => {
+                              closeMobile()
+                              navigate(`/genre/${genre.value}`)
+                            }}
+                          >
+                            <ListItemText primary={genre.label} />
+                          </ListItemButton>
+                        </ListItem>
+                      </Grid>
+                    ))}
                   </Grid>
-                ))}
-              </Grid>
-            </List>
-          </li>
+                </List>
+              </AccordionDetails>
+            </Accordion>
+          ) : (
+            <li className='nav-item position-relative dropdown-genre order-2'>
+              <a href='/#' onClick={closeMobile}>
+                {'Thể loại'}
+                <KeyboardArrowDownIcon />
+              </a>
 
-          <li className='nav-item ps-3'>
+              <List
+                className='list-genre position-absolute'
+                sx={{
+                  minWidth: '250px',
+
+                  background: '#1f1f1f',
+                  borderRadius: '4px'
+                }}
+              >
+                <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
+                  {movieGenre.map((genre, index) => (
+                    <Grid item md={6} key={index}>
+                      <ListItem disablePadding>
+                        <ListItemButton
+                          onClick={() => {
+                            navigate(`/genre/${genre.value}`)
+                          }}
+                        >
+                          <ListItemText primary={genre.label} />
+                        </ListItemButton>
+                      </ListItem>
+                    </Grid>
+                  ))}
+                </Grid>
+              </List>
+            </li>
+          )}
+
+          <li
+            className={open ? 'nav-item ps-3 order-1' : 'nav-item ps-3 order-2'}
+          >
             {/* <a href='/#' onClick={closeMobile}> */}
             {/* <span style={{ display: 'flex' }}>
                 <BsSearch style={{ fontSize: '20px', marginRight: '5px' }} />
@@ -167,7 +237,7 @@ const Header = () => {
             {open ? (
               <FaTimes color='white' fontSize={32} onClick={closeMobile} />
             ) : (
-              <FaBars color='white' fontSize={32} onClick={closeMobile} />
+              <FaBars color='white' fontSize={32} onClick={openMenuMobile} />
             )}
           </Button>
 
