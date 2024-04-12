@@ -54,10 +54,10 @@ const Home = () => {
   if (movies.length === 0) return <h1>No movies</h1>
   return (
     <>
-      <TopBanner />
+      {/* <TopBanner /> */}
       <div className='container'>
         <div className='row'>
-          <div className='col-12 col-xl-9'>
+          <div className='col-12 '>
             <div className='section-title-wrapper'>
               <h2 className='section-title'>Phim mới</h2>
             </div>
@@ -80,19 +80,15 @@ const Home = () => {
             )}
           </div>
 
-          <div className='col-12 col-xl-3 sidebar'>
+          {/* <div className='col-12 col-xl-3 sidebar'>
             <div className='sidenav-block-title sub-title'>Phim bộ hot</div>
 
-            <div className='div-block'>
-              {/* <NewFilmList film={currentPosts} /> */}
-            </div>
+            <div className='div-block'></div>
 
             <div className='sidenav-block-title sub-title'>Phim lẻ hot</div>
 
-            <div className='div-block'>
-              {/* <NewFilmList film={currentPosts} /> */}
-            </div>
-          </div>
+            <div className='div-block'></div>
+          </div> */}
         </div>
       </div>
     </>

@@ -7,6 +7,8 @@ import { getRateMovie } from '../redux/feature/ratingSlice'
 import FilmList from '../components/FilmList'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { Pagination } from '@mui/material'
+import { toLabelType } from '../utils/toLabelType'
+import { toLabelGenre } from '../utils/toLabelGenre'
 
 const ListMovie = () => {
   const { type, genre } = useParams()
@@ -56,12 +58,17 @@ const ListMovie = () => {
   if (loading) return <h1>Loading...</h1>
 
   if (movies.length === 0) return <h1>No movies</h1>
+
   return (
     <div className='container'>
       <div className='row'>
-        <div className='col-12 col-xl-9'>
+        <div className='col-12 '>
           <div className='section-title-wrapper'>
-            <h2 className='section-title'>Phim mới</h2>
+            {type ? (
+              <h2 className='section-title'>{toLabelType(type)}</h2>
+            ) : (
+              <h2 className='section-title'>{toLabelGenre(genre)}</h2>
+            )}
           </div>
           <div className='tabs'>
             <div className='tabs-content'>
@@ -82,19 +89,15 @@ const ListMovie = () => {
           </div>
         </div>
 
-        <div className='col-12 col-xl-3 sidebar'>
+        {/* <div className='col-12 col-xl-3 sidebar'>
           <div className='sidenav-block-title sub-title'>Phim bộ hot</div>
 
-          <div className='div-block'>
-            {/* <NewFilmList film={currentPosts} /> */}
-          </div>
+          <div className='div-block'></div>
 
           <div className='sidenav-block-title sub-title'>Phim lẻ hot</div>
 
-          <div className='div-block'>
-            {/* <NewFilmList film={currentPosts} /> */}
-          </div>
-        </div>
+          <div className='div-block'></div>
+        </div> */}
       </div>
     </div>
   )

@@ -7,7 +7,7 @@ const FilmList = ({ film, type }) => {
     <div className='item-list-wrapper'>
       <Row className='item-list'>
         {film.map((m, index) => (
-          <Col xs='6' lg='3' key={index} className='item'>
+          <Col xs='6' lg='2' key={index} className='item'>
             <FilmItem film={m} type={type}></FilmItem>
           </Col>
         ))}
