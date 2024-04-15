@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 import Home from './pages/Home'
 import Login from './pages/Login'
@@ -39,8 +39,24 @@ function App () {
         <Routes>
           <Route element={<Layout />}>
             <Route path='/' element={<Home />}></Route>
-            <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
+
+            <Route
+              path='/login'
+              element={
+                user ? <Navigate to='/' replace={true}></Navigate> : <Login />
+              }
+            />
+
+            <Route
+              path='/register'
+              element={
+                user ? (
+                  <Navigate to='/' replace={true}></Navigate>
+                ) : (
+                  <Register />
+                )
+              }
+            />
             <Route path='/search' element={<SearchPage />} />
             <Route path='/review/:alias' element={<ReviewMoview />} />
             <Route path='/play/:alias' element={<PlayMovie />}></Route>
