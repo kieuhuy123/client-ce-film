@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const devEnv = process.env.NODE_ENV !== 'production'
-
+console.log('GOOGLE_CLIENT_ID', process.env.TEST_API)
 const HEADER = {
   API_KEY: 'x-api-key',
   CLIENT_ID: 'x-client-id',
@@ -90,6 +90,8 @@ API.interceptors.response.use(
 
 // API Auth
 export const login = formData => API.post('/v1/api/user/login', formData)
+export const googleLogin = (email, googleId) =>
+  API.post('/v1/api/user/googleLogin', { email, googleId })
 export const register = formData => API.post('/v1/api/user/register', formData)
 export const logout = () => API.post('/v1/api/user/logout')
 export const refreshToken = () => API.post('/v1/api/user/refreshToken')

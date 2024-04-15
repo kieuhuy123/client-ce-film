@@ -16,7 +16,21 @@ export const login = createAsyncThunk(
       navigate('/')
       return response.data
     } catch (err) {
-      console.log('error', err)
+      toast.error(err.response.data.message)
+      return rejectWithValue(err.response.data)
+    }
+  }
+)
+
+export const googleLogin = createAsyncThunk(
+  'auth/googleLogin',
+  async ({ email, googleId, navigate, toast }, { rejectWithValue }) => {
+    try {
+      const response = await api.googleLogin(email, googleId)
+      toast.success('Login Successfully')
+      navigate('/')
+      return response.data
+    } catch (err) {
       toast.error(err.response.data.message)
       return rejectWithValue(err.response.data)
     }
@@ -67,7 +81,6 @@ const authSlice = createSlice({
       state.loading = true
     },
     [login.fulfilled]: (state, action) => {
-      console.log('login success')
       state.loading = false
       localStorage.setItem(
         'profile',
@@ -77,7 +90,22 @@ const authSlice = createSlice({
       state.token = action.payload.metadata.tokens.accessToken
     },
     [login.rejected]: (state, action) => {
-      console.log('login failed')
+      state.loading = false
+      state.error = action.payload.message
+    },
+    [googleLogin.pending]: (state, action) => {
+      state.loading = true
+    },
+    [googleLogin.fulfilled]: (state, action) => {
+      state.loading = false
+      localStorage.setItem(
+        'profile',
+        JSON.stringify({ ...action.payload.metadata.tokens })
+      )
+
+      state.token = action.payload.metadata.tokens.accessToken
+    },
+    [googleLogin.rejected]: (state, action) => {
       state.loading = false
       state.error = action.payload.message
     },
