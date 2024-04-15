@@ -36,7 +36,7 @@ const Watchlist = () => {
     // <h1>Hello</h1>
     <Container>
       <Row>
-        <Col lg='12' xl='9'>
+        <Col lg='12'>
           <div className='section-title-wrapper'>
             <h2 className='section-title'>Watchlist</h2>
           </div>
@@ -47,7 +47,7 @@ const Watchlist = () => {
           </div>
         </Col>
 
-        <Col xl='3' className='sidebar'></Col>
+        {/* <Col xl='3' className='sidebar'></Col> */}
       </Row>
     </Container>
   )
