@@ -11,10 +11,20 @@ const RelatedMovieSlider = ({ relatedMovies }) => {
   return (
     <div key={relatedMovies.id}>
       <Swiper
-        slidesPerView={4}
+        slidesPerView={2}
         spaceBetween={30}
         navigation={true}
         modules={[Navigation]}
+        breakpoints={{
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 20
+          },
+          1024: {
+            slidesPerView: 4,
+            spaceBetween: 50
+          }
+        }}
         className='mySwiper p-3'
       >
         {relatedMovies.map((movie, index) => (

@@ -69,6 +69,7 @@ export const createMovie = createAsyncThunk(
       navigate('/')
       return response.data
     } catch (error) {
+      toast.error(error.response.data.message)
       return rejectWithValue(error.response.data)
     }
   }
