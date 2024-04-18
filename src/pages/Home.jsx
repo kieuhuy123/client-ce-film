@@ -27,14 +27,14 @@ const Home = () => {
     stateMovie
 
   const getPage = searchParams.get('page') ? searchParams.get('page') : 1
-
+  const limit = 12
   const handlePageChange = (e, value) => {
     setSearchParams(`page=${value}`)
   }
 
   useEffect(() => {
     if (getPage) {
-      dispatch(getMovies(getPage))
+      dispatch(getMovies({ page: getPage, limit }))
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

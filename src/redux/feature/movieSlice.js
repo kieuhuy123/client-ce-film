@@ -14,9 +14,9 @@ const initialState = {
 
 export const getMovies = createAsyncThunk(
   'movie/getMovies',
-  async (page, { rejectWithValue }) => {
+  async ({ page, limit }, { rejectWithValue }) => {
     try {
-      const response = await api.getMovies(page)
+      const response = await api.getMovies(page, limit)
       return response.data
     } catch (error) {
       return rejectWithValue(error.response.data)

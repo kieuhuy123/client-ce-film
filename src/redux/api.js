@@ -97,7 +97,8 @@ export const logout = () => API.post('/v1/api/user/logout')
 export const refreshToken = () => API.post('/v1/api/user/refreshToken')
 
 // API Movie
-export const getMovies = page => API.get(`/v1/api/movie?page=${page}`)
+export const getMovies = (page, limit) =>
+  API.get(`/v1/api/movie?page=${page}&limit=${limit}`)
 
 export const getMovieByAlias = alias => API.get(`/v1/api/movie/${alias}`)
 export const createMovie = movieData => API.post(`/v1/api/movie`, movieData)
