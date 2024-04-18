@@ -4,6 +4,7 @@ import * as api from '../api'
 const initialState = {
   movie: {},
   movies: [],
+  featuredMovies: [],
   relatedMovies: [],
   currentPage: 1,
   numberOfPages: null,
@@ -133,6 +134,19 @@ export const getMovieByKeyword = createAsyncThunk(
   }
 )
 
+export const getFeaturedMovie = createAsyncThunk(
+  'movie/getFeaturedMovie',
+  async (keyword, { rejectWithValue }) => {
+    try {
+      const response = await api.getFeaturedMovie()
+
+      return response.data
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
+
 const movieSlice = createSlice({
   name: 'movie',
   initialState,
@@ -241,6 +255,17 @@ const movieSlice = createSlice({
       state.movies = action.payload.metadata
     },
     [getMovieByKeyword.rejected]: (state, action) => {
+      state.loading = false
+      state.error = action.payload.message
+    },
+    [getFeaturedMovie.pending]: (state, action) => {
+      state.loading = true
+    },
+    [getFeaturedMovie.fulfilled]: (state, action) => {
+      state.loading = false
+      state.featuredMovies = action.payload.metadata
+    },
+    [getFeaturedMovie.rejected]: (state, action) => {
       state.loading = false
       state.error = action.payload.message
     }

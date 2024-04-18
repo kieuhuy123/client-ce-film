@@ -1,6 +1,10 @@
 import React, { Suspense, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getMovies, setCurrentPage } from '../redux/feature/movieSlice'
+import {
+  getFeaturedMovie,
+  getMovies,
+  setCurrentPage
+} from '../redux/feature/movieSlice'
 import FilmList from '../components/FilmList'
 import { useSearchParams } from 'react-router-dom'
 
@@ -19,7 +23,8 @@ const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const stateMovie = useSelector(state => state.movie)
-  const { movies, loading, currentPage, numberOfPages, error } = stateMovie
+  const { movies, featuredMovies, loading, currentPage, numberOfPages, error } =
+    stateMovie
 
   const getPage = searchParams.get('page') ? searchParams.get('page') : 1
 
@@ -49,12 +54,18 @@ const Home = () => {
     }
   }, [userId, dispatch])
 
+  useEffect(() => {
+    dispatch(getFeaturedMovie())
+  }, [])
+
   if (loading) return <h1>Loading...</h1>
 
   if (movies.length === 0) return <h1>No movies</h1>
   return (
     <>
-      {/* <TopBanner /> */}
+      <div>
+        <TopBanner movies={featuredMovies} />
+      </div>
       <div className='container'>
         <div className='row'>
           <div className='col-12 '>

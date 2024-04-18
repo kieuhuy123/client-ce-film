@@ -119,6 +119,8 @@ export const getRelatedMovies = relatedMovieData =>
 export const getMovieByKeyword = keyword =>
   API.post('/v1/api/movie/search', { keyword })
 
+export const getFeaturedMovie = () => API.get(`/v1/api/movie/featured`)
+
 // API Watchlist
 export const getWatchlist = userId =>
   API.get(`/v1/api/watchlistMovie?userId=${userId}`)
