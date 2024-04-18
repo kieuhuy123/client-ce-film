@@ -26,7 +26,9 @@ import {
   OutlinedInput,
   Box,
   MenuItem,
-  TextField
+  TextField,
+  FormControlLabel,
+  Checkbox
 } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 const initialState = {
@@ -45,7 +47,9 @@ const initialState = {
     publish: '',
     directors: [],
     actors: []
-  }
+  },
+  isFeatured: false,
+  featuredImage: ''
 }
 
 const ITEM_HEIGHT = 48
@@ -76,23 +80,35 @@ const AddMovie = () => {
   const alias = params.alias
 
   const [publicId, setPublicId] = useState('')
-
+  const [featuredId, setFeaturedId] = useState('')
   const cld = new Cloudinary({
     cloud: {
       cloudName: 'dladhhg6i'
     }
   })
 
-  const { title, rate, genre, image, type, trailer, video, review, info } =
-    movieData
+  const {
+    title,
+    rate,
+    genre,
+    image,
+    type,
+    trailer,
+    video,
+    review,
+    info,
+    featured_image: featuredImage,
+    is_featured: isFeatured
+  } = movieData
 
   const myImage = cld.image(image ? image : publicId)
-
+  const cldFeatured = cld.image(featuredImage ? featuredImage : featuredId)
   const onInputChange = e => {
     const { name, value } = e.target
 
     setMovieData({ ...movieData, [name]: value })
   }
+
   const onInfoChange = e => {
     const { name, value } = e.target
     setMovieData({
@@ -103,6 +119,12 @@ const AddMovie = () => {
         [name]: value
       }
     })
+  }
+
+  const onCheckChange = e => {
+    const { name, checked } = e.target
+
+    setMovieData({ ...movieData, [name]: checked })
   }
 
   const handleAddActor = actor => {
@@ -119,6 +141,7 @@ const AddMovie = () => {
     setMovieData({
       ...movieData,
       info: {
+        ...movieData.info,
         actors: movieData.info.actors.filter(actor => actor !== deleteActor)
       }
     })
@@ -138,6 +161,7 @@ const AddMovie = () => {
     setMovieData({
       ...movieData,
       info: {
+        ...movieData.info,
         directors: movieData.info.directors.filter(
           director => director !== deleteDirector
         )
@@ -150,6 +174,11 @@ const AddMovie = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movieData.image, publicId])
+  useEffect(() => {
+    setMovieData({ ...movieData, featured_image: featuredId })
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [movieData.featured_image, featuredId])
 
   useEffect(() => {
     if (movieData.title) {
@@ -397,6 +426,36 @@ const AddMovie = () => {
                     ></TextField>
                   </FormControl>
                 </div>
+                {/*Check box  */}
+                <div className='col-12 col-lg-6'>
+                  <FormControl fullWidth className='mb-3'>
+                    <FormControlLabel
+                      control={<Checkbox checked={isFeatured} />}
+                      label='Phim nổi bật'
+                      sx={{ color: '#000' }}
+                      name='is_featured'
+                      onChange={onCheckChange}
+                    />
+                  </FormControl>
+                </div>
+                {isFeatured ? (
+                  <div className='col-12 col-lg-6 mb-3'>
+                    <InputLabel>{'Image featured'}</InputLabel>
+                    <div className=''>
+                      <UploadWidget setPublicId={setFeaturedId} />
+                    </div>
+                    <div className='mt-3' style={{ width: '400px' }}>
+                      <AdvancedImage
+                        className=''
+                        style={{ maxWidth: '100%' }}
+                        cldImg={cldFeatured}
+                        plugins={[responsive(), placeholder()]}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  ''
+                )}
 
                 <div className='col-12'>
                   <FormControl fullWidth className='mb-3'>

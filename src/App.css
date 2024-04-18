@@ -127,3 +127,8 @@ h6 {
     font-size: 20px;
   }
 }
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #fff;
+}
