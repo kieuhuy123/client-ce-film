@@ -9,6 +9,7 @@ import './Home.css'
 import useAuth from '../hooks/useAuth'
 import { getWatchlist } from '../redux/feature/watchlistSlice'
 import { getRateMovie } from '../redux/feature/ratingSlice'
+import { toSlug } from '../utils/toSlug'
 
 const SearchPage = () => {
   const dispatch = useDispatch()
@@ -26,7 +27,7 @@ const SearchPage = () => {
     if (querySearch === '') navigate('/')
 
     if (querySearch) {
-      dispatch(getMovieByKeyword(querySearch))
+      dispatch(getMovieByKeyword(toSlug(querySearch)))
     }
   }, [querySearch, dispatch, navigate])
   // Get watchlist

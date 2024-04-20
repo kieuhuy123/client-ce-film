@@ -11,12 +11,12 @@ import {
   removeFromWatchlist
 } from '../redux/feature/watchlistSlice'
 
-import toast from 'react-hot-toast'
 import useAuth from '../hooks/useAuth'
+import { useNavigate } from 'react-router-dom'
 
 const BtnWatchlist = ({ film, type }) => {
   const dispatch = useDispatch()
-
+  const navigate = useNavigate()
   const { userId } = useAuth()
 
   const stateWatchlist = useSelector(state => state.watchlist)
@@ -29,7 +29,9 @@ const BtnWatchlist = ({ film, type }) => {
   const onWatchlist = watchlist.find(item => item._id === film._id)
 
   const handleWatchlist = () => {
-    dispatch(addToWatchlist({ movieId: film._id, userId, toast }))
+    userId
+      ? dispatch(addToWatchlist({ movieId: film._id, userId }))
+      : navigate('/login ')
   }
 
   const handleRemoveWatchlist = () => {
@@ -37,8 +39,7 @@ const BtnWatchlist = ({ film, type }) => {
       removeFromWatchlist({
         userId: userId,
         movieId: film._id,
-        alias: film.alias,
-        toast
+        alias: film.alias
       })
     )
   }
@@ -46,7 +47,7 @@ const BtnWatchlist = ({ film, type }) => {
   if (type === 'watchlist') {
     return (
       <Button
-        variant='outlined'
+        variant='contained'
         className=''
         color='primary'
         disabled={loadBtn}
@@ -69,7 +70,7 @@ const BtnWatchlist = ({ film, type }) => {
           onClick={handleRemoveWatchlist}
         >
           <CheckIcon className='me-2' fontSize='small' />
-          {' watchlist'}
+          {'Watchlist'}
         </LoadingButton>
       ) : (
         <LoadingButton

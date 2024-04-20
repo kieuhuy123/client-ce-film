@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as api from '../api'
 
+import toast from 'react-hot-toast'
 const initialState = {
   watchlist: [],
   error: '',
@@ -22,12 +23,13 @@ export const getWatchlist = createAsyncThunk(
 
 export const addToWatchlist = createAsyncThunk(
   'watchlist/addToWatchlist',
-  async ({ userId, movieId, toast }, { rejectWithValue }) => {
+  async ({ userId, movieId }, { rejectWithValue }) => {
     try {
       const response = await api.addToWatchlist(userId, movieId)
-      toast.success('Add film to watchlist')
+      toast.success('Thêm phim vào danh sách')
       return response.data
     } catch (error) {
+      toast.error(error.response.data.message)
       return rejectWithValue(error.response.data)
     }
   }
@@ -35,10 +37,11 @@ export const addToWatchlist = createAsyncThunk(
 
 export const removeFromWatchlist = createAsyncThunk(
   'watchlist/removeFromWatchlist',
-  async ({ userId, movieId, alias, toast }, { rejectWithValue }) => {
+  async ({ userId, movieId, alias }, { rejectWithValue }) => {
     try {
       const response = await api.removeFromWatchlist(userId, movieId, alias)
-      toast.success('Remove film from watchlist')
+      toast.success('Xóa phim khỏi danh sách')
+      console.log('response', response)
       return response.data
     } catch (error) {
       return rejectWithValue(error.response.data)

@@ -90,3 +90,19 @@
   visibility: visible;
   opacity: 1;
 }
+
+@media screen and (max-width: 992px) {
+  .top-banner-review {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+  }
+
+  .top-banner-content {
+    width: 65%;
+  }
+
+  .overlay {
+    display: none;
+  }
+}

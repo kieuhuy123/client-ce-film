@@ -28,7 +28,7 @@ const RelatedMovieSlider = ({ relatedMovies }) => {
         className='mySwiper p-3'
       >
         {relatedMovies.map((movie, index) => (
-          <SwiperSlide key={index}>
+          <SwiperSlide key={index} className='h-auto'>
             <FilmItem film={movie} />
           </SwiperSlide>
         ))}

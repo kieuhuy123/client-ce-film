@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as api from '../api'
+import toast from 'react-hot-toast'
 
 const initialState = {
   rated: [],
@@ -15,9 +16,10 @@ export const rateMovie = createAsyncThunk(
     try {
       const response = await api.rateMovie(userId, movieId, ratingValue)
       setOpen(false)
-
+      toast.success('Đánh giá thành công')
       return response.data
     } catch (error) {
+      toast.error(error.response.data.message)
       return rejectWithValue(error.response.data)
     }
   }
@@ -37,8 +39,10 @@ export const updateRatingMovie = createAsyncThunk(
         oldRatingValue
       )
       setOpen(false)
+      toast.success('Đánh giá thành công')
       return response.data
     } catch (error) {
+      toast.error(error.response.data.message)
       return rejectWithValue(error.response.data)
     }
   }

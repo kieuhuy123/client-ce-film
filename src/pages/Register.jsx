@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
-import { Container } from 'react-bootstrap'
+
 import toast from 'react-hot-toast'
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
+
 import { Link, useNavigate } from 'react-router-dom'
-import { register } from '../redux/feature/authSlice'
+import { googleLogin, register } from '../redux/feature/authSlice'
 import { useDispatch } from 'react-redux'
-import { FormControl, TextField } from '@mui/material'
+import { Button, FormControl, TextField } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
+import { useGoogleLogin } from '@react-oauth/google'
+import axios from 'axios'
+import { FcGoogle } from 'react-icons/fc'
 const initialState = {
   email: '',
   password: '',
@@ -39,6 +41,33 @@ const Register = () => {
       dispatch(register({ formValue, navigate, toast }))
     }
   }
+
+  const registerWithGoogle = useGoogleLogin({
+    onSuccess: async response => {
+      try {
+        const res = await axios({
+          method: 'get',
+          url: 'https://www.googleapis.com/oauth2/v3/userinfo',
+          headers: {
+            Authorization: `Bearer ${response.access_token}`
+          }
+        })
+
+        if (res?.data?.email && res?.data?.sub)
+          dispatch(
+            googleLogin({
+              email: res.data.email,
+              googleId: res.data.sub,
+              navigate,
+              toast
+            })
+          )
+      } catch (error) {
+        toast.error(error.response.data.error)
+        console.log(error)
+      }
+    }
+  })
 
   return (
     <ThemeProvider theme={lightTheme}>
@@ -86,16 +115,26 @@ const Register = () => {
                     </FormControl>
                   </div>
 
-                  <Button variant='primary' type='submit'>
+                  <Button variant='contained' type='submit'>
                     Submit
                   </Button>
 
                   <div className='mt-3'>
                     <span className='text-black'>{'Have an account?'}</span>
 
-                    <Link to={'/login'}>{'Login now'}</Link>
+                    <Link to={'/login'}>{' Login now'}</Link>
                   </div>
                 </form>
+
+                <div className='mt-3'>
+                  <Button
+                    variant='outlined'
+                    startIcon={<FcGoogle />}
+                    onClick={() => registerWithGoogle()}
+                  >
+                    {'Register with Google '}
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

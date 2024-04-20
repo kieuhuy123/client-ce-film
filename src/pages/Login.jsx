@@ -8,6 +8,8 @@ import { useDispatch } from 'react-redux'
 import { Button, FormControl, TextField } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { useGoogleLogin } from '@react-oauth/google'
+import { FcGoogle } from 'react-icons/fc'
+
 // import { jwtDecode } from 'jwt-decode'
 import axios from 'axios'
 import useAuth from '../hooks/useAuth'
@@ -124,14 +126,13 @@ const Login = () => {
                       }}
                     /> */}
                     <Button
-                      variant='contained'
+                      variant='outlined'
+                      startIcon={<FcGoogle />}
                       onClick={() => loginWithGoogle()}
                     >
-                      Sign in with Google 🚀
+                      {'Sign in with Google '}
                     </Button>
-                    ;
                   </div>
-                  ;
                 </form>
               </div>
             </div>

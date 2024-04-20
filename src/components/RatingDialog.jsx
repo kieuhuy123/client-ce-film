@@ -19,6 +19,7 @@ import {
   updateRatingMovie
 } from '../redux/feature/ratingSlice'
 import useAuth from '../hooks/useAuth'
+import { useNavigate } from 'react-router-dom'
 
 const RateDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -37,7 +38,7 @@ const RatingDialog = ({ film, open, handleClose }) => {
   const { userId } = useAuth()
 
   const dispatch = useDispatch()
-
+  const navigate = useNavigate()
   const ratingState = useSelector(state => state.rating)
   const { rated } = ratingState
   const ratedMovie =
@@ -46,6 +47,11 @@ const RatingDialog = ({ film, open, handleClose }) => {
       : ''
 
   const handleRate = async () => {
+    if (!userId) {
+      dispatch(setOpen(false))
+      return navigate('/login')
+    }
+
     if (ratedMovie) {
       dispatch(
         updateRatingMovie({

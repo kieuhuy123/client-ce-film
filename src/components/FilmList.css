@@ -94,10 +94,10 @@
 }
 
 @media screen and (max-width: 428px) {
-  .item-block-img {
+  /* .item-block-img {
     width: 125px;
     height: 170px;
-  }
+  } */
   .item-block {
     padding: 0;
   }
