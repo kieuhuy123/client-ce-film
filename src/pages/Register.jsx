@@ -38,7 +38,7 @@ const Register = () => {
       return toast.error('Password should match')
     }
     if (email && password) {
-      dispatch(register({ formValue, navigate, toast }))
+      dispatch(register({ formValue, navigate }))
     }
   }
 
@@ -58,8 +58,7 @@ const Register = () => {
             googleLogin({
               email: res.data.email,
               googleId: res.data.sub,
-              navigate,
-              toast
+              navigate
             })
           )
       } catch (error) {

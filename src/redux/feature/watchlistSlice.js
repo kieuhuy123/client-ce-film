@@ -27,6 +27,7 @@ export const addToWatchlist = createAsyncThunk(
     try {
       const response = await api.addToWatchlist(userId, movieId)
       toast.success('Thêm phim vào danh sách')
+
       return response.data
     } catch (error) {
       toast.error(error.response.data.message)
@@ -41,7 +42,7 @@ export const removeFromWatchlist = createAsyncThunk(
     try {
       const response = await api.removeFromWatchlist(userId, movieId, alias)
       toast.success('Xóa phim khỏi danh sách')
-      console.log('response', response)
+
       return response.data
     } catch (error) {
       return rejectWithValue(error.response.data)

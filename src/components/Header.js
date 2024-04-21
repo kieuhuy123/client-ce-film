@@ -32,12 +32,14 @@ import {
 import './Navbar.css'
 import useAuth from '../hooks/useAuth'
 import { useDispatch } from 'react-redux'
-import { logout } from '../redux/feature/authSlice'
+import { googleLogin, logout } from '../redux/feature/authSlice'
 import toast from 'react-hot-toast'
 import movieType from '../lib/movieType.json'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import movieGenre from '../lib/movieGenre.json'
 import { IoIosSearch } from 'react-icons/io'
+import { googleLogout, useGoogleOneTapLogin } from '@react-oauth/google'
+import { jwtDecode } from 'jwt-decode'
 
 const Header = () => {
   const dispatch = useDispatch()
@@ -71,7 +73,8 @@ const Header = () => {
   }
 
   const handleLogout = () => {
-    dispatch(logout({ navigate, toast }))
+    googleLogout()
+    dispatch(logout({ navigate }))
   }
   const handleChangeKeyword = e => {
     setKeyword(e.target.value)
@@ -83,6 +86,27 @@ const Header = () => {
 
     // dispatch(getMovieByKeyword(keyword))
   }
+
+  useGoogleOneTapLogin({
+    onSuccess: credentialResponse => {
+      console.log(credentialResponse)
+      const info = jwtDecode(credentialResponse.credential)
+      console.log('info', info)
+      if (info?.sub && info?.email) {
+        dispatch(
+          googleLogin({
+            email: info.email,
+            googleId: info.sub,
+            navigate,
+            toast
+          })
+        )
+      }
+    },
+    onError: () => {
+      console.log('Login Failed')
+    }
+  })
 
   // useEffect(() => {
   //   if ((body, open)) {

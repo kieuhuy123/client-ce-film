@@ -10,9 +10,8 @@ import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { useGoogleLogin } from '@react-oauth/google'
 import { FcGoogle } from 'react-icons/fc'
 
-// import { jwtDecode } from 'jwt-decode'
 import axios from 'axios'
-import useAuth from '../hooks/useAuth'
+
 const initialState = {
   email: '',
   password: ''
@@ -38,7 +37,7 @@ const Login = () => {
   const handleSubmit = e => {
     e.preventDefault()
     if (email && password) {
-      dispatch(login({ formValue, navigate, toast }))
+      dispatch(login({ formValue, navigate }))
     }
   }
 
@@ -58,8 +57,7 @@ const Login = () => {
             googleLogin({
               email: res.data.email,
               googleId: res.data.sub,
-              navigate,
-              toast
+              navigate
             })
           )
       } catch (error) {
@@ -103,7 +101,7 @@ const Login = () => {
                     </FormControl>
                   </div>
                   <Button variant='contained' type='submit'>
-                    Submit
+                    {'Submit'}
                   </Button>
                   <div className='mt-3'>
                     <span className='text-black'>
@@ -130,7 +128,7 @@ const Login = () => {
                       startIcon={<FcGoogle />}
                       onClick={() => loginWithGoogle()}
                     >
-                      {'Sign in with Google '}
+                      {'Login with Google '}
                     </Button>
                   </div>
                 </form>

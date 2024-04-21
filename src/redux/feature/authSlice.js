@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as api from '../api'
+import toast from 'react-hot-toast'
 
 const initialState = {
   token: null,
@@ -9,7 +10,7 @@ const initialState = {
 
 export const login = createAsyncThunk(
   'auth/login',
-  async ({ formValue, navigate, toast }, { rejectWithValue }) => {
+  async ({ formValue, navigate }, { rejectWithValue }) => {
     try {
       const response = await api.login(formValue)
       toast.success('Login Successfully')
@@ -24,7 +25,7 @@ export const login = createAsyncThunk(
 
 export const googleLogin = createAsyncThunk(
   'auth/googleLogin',
-  async ({ email, googleId, navigate, toast }, { rejectWithValue }) => {
+  async ({ email, googleId, navigate }, { rejectWithValue }) => {
     try {
       const response = await api.googleLogin(email, googleId)
       toast.success('Login Successfully')
@@ -39,7 +40,7 @@ export const googleLogin = createAsyncThunk(
 // setUser
 export const register = createAsyncThunk(
   'auth/register',
-  async ({ formValue, navigate, toast }, { rejectWithValue }) => {
+  async ({ formValue, navigate }, { rejectWithValue }) => {
     try {
       const response = await api.register(formValue)
       toast.success('Register Successfully')
@@ -54,7 +55,7 @@ export const register = createAsyncThunk(
 
 export const logout = createAsyncThunk(
   'auth/logout',
-  async ({ navigate, toast }, { rejectWithValue }) => {
+  async ({ navigate }, { rejectWithValue }) => {
     try {
       const response = await api.logout()
       toast.success('Logout Successfully')
