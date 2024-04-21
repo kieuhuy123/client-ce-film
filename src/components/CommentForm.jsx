@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Box, Button, FormControl, FormGroup, TextField } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { createComment } from '../redux/feature/commentSlice'
+import { useNavigate } from 'react-router-dom'
 // import Textarea from '@mui/joy/Textarea'
 
 const CommentForm = ({
@@ -12,14 +13,16 @@ const CommentForm = ({
   loading
 }) => {
   const [content, setContent] = useState('')
-
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const handleChangeContent = e => {
     setContent(e.target.value)
   }
 
   const handleSubmit = e => {
     e.preventDefault()
+    if (!userId) return navigate('/login')
+
     if (content) {
       dispatch(
         createComment({ movieId, userId, userEmail, content, parentCommentId })

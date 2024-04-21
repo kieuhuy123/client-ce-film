@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as api from '../api'
+import toast from 'react-hot-toast'
 
 const initialState = {
   comments: [],
@@ -49,9 +50,10 @@ export const createComment = createAsyncThunk(
         content,
         parentCommentId
       )
-
+      toast.success('Thêm comment thành công')
       return response.data
     } catch (error) {
+      toast.error(error.response.data.message)
       return rejectWithValue(error.response.data)
     }
   }

@@ -61,11 +61,11 @@ const Comment = ({
     return group
   }, [childComments])
 
-  const childComment = getReplies(commentId)
-
   function getReplies (parentId) {
     return commentsByParentId[parentId]
   }
+
+  const childComment = getReplies(commentId)
 
   return (
     <Paper variant='outlined' sx={{ padding: '20px', marginTop: '30px' }}>
@@ -99,12 +99,17 @@ const Comment = ({
       </div>
       {width > 1 && !commentListChild ? (
         <div className=''>
-          <FiCornerDownRight />
-
-          <Button
-            variant='text'
-            onClick={handleGetComment}
-          >{`Xem tất cả`}</Button>
+          {childComments.length > 1 ? (
+            ''
+          ) : (
+            <>
+              <FiCornerDownRight />
+              <Button
+                variant='text'
+                onClick={handleGetComment}
+              >{`Xem tất cả`}</Button>
+            </>
+          )}
         </div>
       ) : (
         ''
