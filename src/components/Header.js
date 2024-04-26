@@ -105,7 +105,8 @@ const Header = () => {
     },
     onError: () => {
       console.log('Login Failed')
-    }
+    },
+    disabled: email ? true : false
   })
 
   // useEffect(() => {
