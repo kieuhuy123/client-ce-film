@@ -8,6 +8,8 @@ import { MdAddToPhotos } from 'react-icons/md'
 import { MdCreate } from 'react-icons/md'
 import { LuLogOut } from 'react-icons/lu'
 import { FaStar } from 'react-icons/fa'
+import { SlWallet } from 'react-icons/sl'
+
 import {
   Avatar,
   Button,
@@ -241,7 +243,7 @@ const Header = () => {
                   hiddenLabel
                   placeholder='Tìm kiếm'
                   variant='outlined'
-                  sx={{ minWidth: '350px' }}
+                  sx={{ minWidth: '200px' }}
                 />
                 <IconButton
                   aria-label='delete'
@@ -258,6 +260,25 @@ const Header = () => {
         </ul>
 
         <div className='d-flex position-relative'>
+          <Button
+            variant='contained'
+            color='error'
+            startIcon={<SlWallet />}
+            className='d-none d-xl-flex'
+            sx={{ textTransform: 'none' }}
+            onClick={() => navigate('/packages')}
+          >
+            {'Mua gói'}
+          </Button>
+          <Button
+            variant='contained'
+            color='error'
+            className=' d-xl-none'
+            sx={{ textTransform: 'none' }}
+            onClick={() => navigate('/packages')}
+          >
+            {'Mua gói'}
+          </Button>
           <Button className='d-xl-none'>
             {open ? (
               <FaTimes color='white' fontSize={32} onClick={closeMobile} />

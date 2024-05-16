@@ -22,6 +22,9 @@ import ListMovie from './pages/ListMovie'
 import SearchPage from './pages/Search'
 import UserRatings from './pages/UserRatings'
 
+import Packages from './pages/Packages'
+import PackagePlan from './pages/PackagePlan'
+
 function App () {
   const dispatch = useDispatch()
   const user = JSON.parse(localStorage.getItem('profile'))
@@ -62,6 +65,11 @@ function App () {
             <Route path='/play/:alias' element={<PlayMovie />}></Route>
             <Route path='/type/:type' element={<ListMovie />}></Route>
             <Route path='/genre/:genre' element={<ListMovie />}></Route>
+            <Route path='/packages' element={<Packages />}></Route>
+            <Route
+              path='/packages/plan/:type'
+              element={<PackagePlan />}
+            ></Route>
             <Route
               path='/addMovie'
               element={

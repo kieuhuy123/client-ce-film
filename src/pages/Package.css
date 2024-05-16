@@ -1,0 +1,25 @@
+.display-item {
+  width: 100%;
+}
+.package-item {
+  display: flex;
+  min-height: 56px;
+  align-items: center;
+  justify-content: center;
+}
+.package-item.change-background {
+  background: #2c2a2a;
+}
+
+.plan-select {
+  background: #2c2a2a;
+  cursor: pointer;
+}
+
+.payment-section {
+  background: #2c2a2a;
+}
+
+.payment-total {
+  color: #f44336;
+}
