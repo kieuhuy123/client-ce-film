@@ -181,7 +181,22 @@ export const createComment = (
 export const deleteComment = (commentId, movieId) =>
   API.delete(`/v1/api/comment?commentId=${commentId}&movieId=${movieId}`)
 
-//
+// API package
+export const getPackage = () => API.get(`/v1/api/package`)
+
+// API order
+export const orderNew = ({ userId, package_order_new }) =>
+  API.post('v1/api/order', {
+    userId,
+    package_order_new
+  })
+
+export const PaymentIntents = product =>
+  API.post('/v1/api/checkout/payment-intents', { product })
+
+// export const CheckoutSession = product =>
+//   API.post('/v1/api/create-checkout-session', { product })
+// handle handleRefreshToken
 const handleRefreshToken = async () => {
   try {
     const response = await refreshToken()
