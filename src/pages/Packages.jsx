@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getPackage } from '../redux/feature/packageSlice'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import useAuth from '../hooks/useAuth'
 
 const checkFeaturePackage = packageType => {
   return (
@@ -37,9 +38,13 @@ const Packages = () => {
   const navigate = useNavigate()
   const statePackage = useSelector(state => state.package)
   const { packages } = statePackage
-
+  const { userId } = useAuth()
   const handlePackage = (e, type) => {
     e.preventDefault()
+    if (!userId) {
+      return navigate('/login')
+    }
+
     navigate(`/packages/plan/${type}`)
   }
 

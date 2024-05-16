@@ -30,11 +30,16 @@ const PackagePlan = () => {
   const [choosePlan, setChoosePlan] = useState('')
   const [open, setOpen] = React.useState(false)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const statePackage = useSelector(state => state.package)
   const { packages } = statePackage
 
   let { type: planType } = useParams()
   const { userId, email } = useAuth()
+
+  if (!userId) {
+    navigate('/login')
+  }
 
   const packagePlan =
     packages.length > 0
