@@ -25,10 +25,10 @@ API.interceptors.request.use(req => {
     }`
   }
 
-  if (localStorage.getItem('profile')) {
-    req.headers.Authorization = `Bearer ${
-      JSON.parse(localStorage.getItem('profile')).accessToken
-    }`
+  if (localStorage.getItem('accessToken')) {
+    req.headers.Authorization = `Bearer ${JSON.parse(
+      localStorage.getItem('accessToken')
+    )}`
   }
 
   req.headers['x-api-key'] = API_KEY
@@ -67,7 +67,7 @@ API.interceptors.response.use(
       } = await handleRefreshToken()
 
       if (tokens) {
-        localStorage.setItem('profile', JSON.stringify(tokens))
+        localStorage.setItem('accessToken', JSON.stringify(tokens.accessToken))
 
         return API(config)
       }
@@ -78,6 +78,7 @@ API.interceptors.response.use(
       (message === 'refreshToken expired' ||
         message === 'Invalid refreshToken' ||
         message === 'Not found keyStore' ||
+        message === 'Invalid accessToken' ||
         message === 'Something wrong happen!! Please reLogin')
     ) {
       localStorage.clear()

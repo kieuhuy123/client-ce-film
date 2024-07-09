@@ -84,8 +84,8 @@ const authSlice = createSlice({
     [login.fulfilled]: (state, action) => {
       state.loading = false
       localStorage.setItem(
-        'profile',
-        JSON.stringify({ ...action.payload.metadata.tokens })
+        'accessToken',
+        JSON.stringify(action.payload.metadata.tokens.accessToken)
       )
 
       state.token = action.payload.metadata.tokens.accessToken
@@ -100,8 +100,8 @@ const authSlice = createSlice({
     [googleLogin.fulfilled]: (state, action) => {
       state.loading = false
       localStorage.setItem(
-        'profile',
-        JSON.stringify({ ...action.payload.metadata.tokens })
+        'accessToken',
+        JSON.stringify(action.payload.metadata.tokens.accessToken)
       )
 
       state.token = action.payload.metadata.tokens.accessToken
@@ -116,8 +116,8 @@ const authSlice = createSlice({
     [register.fulfilled]: (state, action) => {
       state.loading = false
       localStorage.setItem(
-        'profile',
-        JSON.stringify({ ...action.payload.metadata.tokens })
+        'accessToken',
+        JSON.stringify(action.payload.metadata.tokens.accessToken)
       )
       state.token = action.payload.metadata.tokens.accessToken
     },

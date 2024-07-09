@@ -27,13 +27,13 @@ import PackagePlan from './pages/PackagePlan'
 
 function App () {
   const dispatch = useDispatch()
-  const user = JSON.parse(localStorage.getItem('profile'))
+  const accessToken = JSON.parse(localStorage.getItem('accessToken'))
 
   useEffect(() => {
-    if (user) {
-      dispatch(setToken(user.accessToken))
+    if (accessToken) {
+      dispatch(setToken(accessToken))
     }
-  }, [dispatch, user])
+  }, [dispatch, accessToken])
 
   return (
     <BrowserRouter>
@@ -46,14 +46,18 @@ function App () {
             <Route
               path='/login'
               element={
-                user ? <Navigate to='/' replace={true}></Navigate> : <Login />
+                accessToken ? (
+                  <Navigate to='/' replace={true}></Navigate>
+                ) : (
+                  <Login />
+                )
               }
             />
 
             <Route
               path='/register'
               element={
-                user ? (
+                accessToken ? (
                   <Navigate to='/' replace={true}></Navigate>
                 ) : (
                   <Register />
